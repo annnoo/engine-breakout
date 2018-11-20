@@ -13,7 +13,7 @@
     "npm": ">=3"
   },
   "scripts": {
-    "eslint": "eslint ./src/**",
+    "eslint": "eslint \"./src/**\"",
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack"
   }
