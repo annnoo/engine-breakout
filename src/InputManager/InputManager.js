@@ -14,16 +14,16 @@ class InputManager {
      *
      */
     enableEventHandlers() {
-        document.addEventListener("keydown", this.keyPressedCallback.bind(this));
-        document.addEventListener("keyup", this.keyReleasedCallback.bind(this));
+        document.addEventListener('keydown', this.keyPressedCallback.bind(this));
+        document.addEventListener('keyup', this.keyReleasedCallback.bind(this));
     }
 
     /**
      *
      */
     disableEventHandlers() {
-        document.removeEventListener("keydown", this.keyPressedCallback);
-        document.removeEventListener("keyup", this.keyReleasedCallback);
+        document.removeEventListener('keydown', this.keyPressedCallback);
+        document.removeEventListener('keyup', this.keyReleasedCallback);
     }
 
     /**
@@ -61,7 +61,7 @@ class InputManager {
             return false;
         } else {
             for (const keyCode in this.keyMap[inputAlias]) {
-                if (this.keyMap === true) {
+                if (this.keyMap[keyCode] === true) {
                     return true;
                 }
             }
@@ -69,3 +69,5 @@ class InputManager {
         return false;
     }
 }
+
+export default InputManager;
