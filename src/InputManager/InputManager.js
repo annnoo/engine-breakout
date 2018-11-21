@@ -1,3 +1,5 @@
+'use strict';
+
 class InputManager {
     /**
      *
@@ -28,7 +30,7 @@ class InputManager {
 
     /**
      *
-     * @param {KeyboardEvent} ev
+     * @param {KeyboardEvent} ev The KeyboardEvent
      */
     keyPressedCallback(ev) {
         this.keyStates[ev.keyCode] = true;
@@ -36,7 +38,7 @@ class InputManager {
 
     /**
      *
-     * @param {KeyboardEvent} ev
+     * @param {KeyboardEvent} ev The KeyboardEvent
      */
     keyReleasedCallback(ev) {
         this.keyStates[ev.keyCode] = false;
@@ -44,16 +46,16 @@ class InputManager {
 
     /**
      *
-     * @param {string} alias
-     * @param {number} keycode
+     * @param {string} inputAlias The alias of the input
+     * @param {number} keycode  The keycode for the pressed key
      */
-    addKey(alias, keycode) {
-        this.keyMap[alias].push(keycode);
+    addKey(inputAlias, keycode) {
+        this.keyMap[inputAlias].push(keycode);
     }
 
     /**
      *
-     * @param {string} inputAlias
+     * @param {string} inputAlias The alias of the input
      * @returns {boolean} State of the desired input alias
      */
     keyPressed(inputAlias) {
