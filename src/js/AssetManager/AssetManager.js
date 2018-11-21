@@ -100,6 +100,8 @@ class AssetManager {
             this.cache[i].asset = asset;
             asset.src = this.cache[i].path;
         }
+
+        this.cachePointer = this.cache.length;
     }
 
     createObjectFromType(type){
