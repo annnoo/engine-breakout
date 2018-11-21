@@ -1,12 +1,16 @@
 import './css/style.css';
+import Audio1 from './assets/audio/audio_1.wav';
+import Audio2 from './assets/audio/audio_2.mp3';
+import Img1 from './assets/img/img_1.png';
+import Img2 from './assets/img/img_2.png';
 import AssetManager, {AM_FAILED} from './js/AssetManager/AssetManager';
 
 let am = new AssetManager();
 
-let id_img1 = am.addImage('img_1.png');
-let id_img2 = am.addImage('img_2.png');
-let id_aud1 = am.addAudio('audio_1.wav');
-let id_aud2 = am.addAudio('audio_2.mp3');
+let id_img1 = am.addImage(Img1);
+let id_img2 = am.addImage(Img2);
+let id_aud1 = am.addAudio(Audio1);
+let id_aud2 = am.addAudio(Audio2);
 
 am.downloadAll(() => {
 
