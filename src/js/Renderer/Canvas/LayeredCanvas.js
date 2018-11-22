@@ -47,6 +47,17 @@ class LayeredCanvas extends DoubleBufferedCanvas {
 
         super.swapBuffers();
     }
+
+    /**
+     * Resize canvas.
+     *
+     * @param {number} width Width in px
+     * @param {number} height Height in px
+     */
+    resize(width, height) {
+        super.resize(width, height);
+        this.layers.forEach((layer) => layer.resize(width, height));
+    }
 }
 
 export default LayeredCanvas;

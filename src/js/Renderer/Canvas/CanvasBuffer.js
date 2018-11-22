@@ -33,6 +33,17 @@ class CanvasBuffer {
         this.canvas.getContext('2d')
             .clearRect(0, 0, this.canvas.width, this.canvas.height);
     }
+
+    /**
+     * Resize buffer.
+     *
+     * @param {number} width Width in px
+     * @param {number} height Height in px
+     */
+    resize(width, height) {
+        this.canvas.width = width;
+        this.canvas.height = height;
+    }
 }
 
 export default CanvasBuffer;

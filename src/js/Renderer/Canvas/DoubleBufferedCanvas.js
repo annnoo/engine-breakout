@@ -34,6 +34,18 @@ class DoubleBufferedCanvas {
         this.displayContext.drawImage(this.buffer.canvas, 0, 0);
         this.buffer.clear();
     }
+
+    /**
+     * Resize canvas.
+     *
+     * @param {number} width Width in px
+     * @param {number} height Height in px
+     */
+    resize(width, height) {
+        this.buffer.resize(width, height);
+        this.display.width = width;
+        this.display.height = height;
+    }
 }
 
 export default DoubleBufferedCanvas;

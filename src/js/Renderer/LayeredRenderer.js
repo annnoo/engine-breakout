@@ -122,6 +122,16 @@ class LayeredRenderer {
         this.debugEnabled = false;
         this.layers.get(DEBUG_LAYER_ID).enabled = false;
     }
+
+    /**
+     * Resize display canvas
+     *
+     * @param {number} width Width in px
+     * @param {number} height Height in px
+     */
+    resizeCanvas(width, height) {
+        this.canvas.resize(width, height);
+    }
 }
 
 export default LayeredRenderer;
