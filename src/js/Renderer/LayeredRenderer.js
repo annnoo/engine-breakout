@@ -148,6 +148,16 @@ class LayeredRenderer {
     resizeCanvas(width, height) {
         this.canvas.resize(width, height);
     }
+
+    /**
+     * Make the canvas fill the entire viewport. Covers everything else.
+     */
+    fillViewport() {
+        this.renderTarget.style.position = 'absolute';
+        this.renderTarget.style.left = '0';
+        this.renderTarget.style.top = '0';
+        this.resizeCanvas(window.innerWidth, window.innerHeight);
+    }
 }
 
 export default LayeredRenderer;
