@@ -113,11 +113,17 @@ class LayeredRenderer {
         this.dtime = dtime / 10e3;
     }
 
+    /**
+     * Enable debug layer
+     */
     enableDebug() {
         this.debugEnabled = true;
         this.layers.get(DEBUG_LAYER_ID).enabled = true;
     }
 
+    /**
+     * Disable debug layer
+     */
     disableDebug() {
         this.debugEnabled = false;
         this.layers.get(DEBUG_LAYER_ID).enabled = false;
