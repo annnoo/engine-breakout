@@ -4,6 +4,7 @@ import LayeredCanvas from './Canvas/LayeredCanvas.js';
 import RenderLayer from './RenderLayer.js';
 import Rectangle, { renderRectangle } from './GraphicObjects/Rectangle.js';
 import CanvasBuffer from './Canvas/CanvasBuffer.js';
+import Text, { renderText } from './GraphicObjects/Text.js';
 
 const DEBUG_LAYER_ID = '__debug';
 
@@ -28,6 +29,8 @@ class LayeredRenderer {
         this.dtime = 0;
         this.debugEnabled = false;
 
+        this.DEBUG_FPS_COUNTER = new Text(10, 10, 'Hallo Welt');
+
         /**
          * @type {Map<*, RenderLayer}
          */
@@ -47,14 +50,18 @@ class LayeredRenderer {
     _setupDebugLayer(layer) {
         layer.setState([
             ...layer.state,
-            new Rectangle(100, 100, 50, 25)
+            this.DEBUG_FPS_COUNTER
         ]);
 
         layer.enabled = true;
     }
 
+    /**
+     * @param {RenderLayer} layer
+     */
     _updateDebugLayer(layer) {
-        // Do stuff
+        layer.setClearFlag(true);
+        this.DEBUG_FPS_COUNTER.text = 'FPS: ' + (1 / this.dtime).toFixed(0);
     }
 
     /**
@@ -83,12 +90,15 @@ class LayeredRenderer {
                         if (obj instanceof Rectangle) {
                             renderRectangle(layer.buffer.getContext('2d'), obj);
                         }
+                        else if (obj instanceof Text) {
+                            renderText(layer.buffer.getContext('2d'), obj);
+                        }
                     });
                 }
             });
 
             if (this.debugEnabled) {
-                this._updateDebugLayer();
+                this._updateDebugLayer(this.layers.get(DEBUG_LAYER_ID));
             }
 
             this.canvas.swapBuffers();
@@ -110,7 +120,7 @@ class LayeredRenderer {
         const now = performance.now();
         const dtime = now - this.lastFrame;
         this.lastFrame = now;
-        this.dtime = dtime / 10e3;
+        this.dtime = dtime / 1000;
     }
 
     /**
