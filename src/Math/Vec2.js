@@ -94,6 +94,33 @@ class Vec2 {
     }
 
     /**
+     * Rotates the Vec2
+     * @param {number} angle Angle as radiant
+     * @returns {Vec2} this
+     */
+    rotate(angle){
+        this.x = this.x* Math.cos(angle) - this.y * Math.sin(angle);
+        this.y = this.x* Math.sin(angle) + this.y * Math.cos(angle);
+
+        return this;
+    }
+
+
+    /**
+     * Creates a rotated copy of the Vec2
+     * @param {number} angle Angle as radiant
+     * @returns {Vec2} A rotated copy of the Vec2
+     */
+    rotated(angle){
+        const vec = this.clone();
+
+        vec.x = vec.x* Math.cos(angle) - vec.y * Math.sin(angle);
+        vec.y = vec.x* Math.sin(angle) + vec.y * Math.cos(angle);
+        return vec;
+
+    }
+
+    /**
      * Normalizes the Vec2
      * @returns {Vec2} this
      */
