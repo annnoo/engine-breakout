@@ -37,14 +37,14 @@ class LayeredRenderer {
         });
 
         this.debugLayer = this.layers.get(DEBUG_LAYER_ID);
-        this.setupDebugLayer(this.debugLayer);
+        this._setupDebugLayer(this.debugLayer);
 
     }
 
     /**
      * @param {RenderLayer} layer
      */
-    setupDebugLayer(layer) {
+    _setupDebugLayer(layer) {
         layer.setState([
             ...layer.state,
             new Rectangle(100, 100, 50, 25)
@@ -53,7 +53,7 @@ class LayeredRenderer {
         layer.enabled = true;
     }
 
-    updateDebugLayer(layer) {
+    _updateDebugLayer(layer) {
         // Do stuff
     }
 
@@ -71,7 +71,7 @@ class LayeredRenderer {
      */
     registerRenderLoop() {
         window.requestAnimationFrame(() => {
-            this.updateDtime();
+            this._updateDtime();
 
             this.layers.forEach((layer) => {
                 if (layer.enabled) {
@@ -88,7 +88,7 @@ class LayeredRenderer {
             });
 
             if (this.debugEnabled) {
-                this.updateDebugLayer();
+                this._updateDebugLayer();
             }
 
             this.canvas.swapBuffers();
@@ -106,7 +106,7 @@ class LayeredRenderer {
         this.renderingShouldEnd = true;
     }
 
-    updateDtime() {
+    _updateDtime() {
         const now = performance.now();
         const dtime = now - this.lastFrame;
         this.lastFrame = now;
