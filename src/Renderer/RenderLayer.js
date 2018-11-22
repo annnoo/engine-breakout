@@ -2,6 +2,11 @@
 
 import CanvasBuffer from './Canvas/CanvasBuffer';
 
+/**
+ * Layer state.
+ *
+ * @author Christian Danscheid
+ */
 class RenderLayer {
     /**
      * @param {CanvasBuffer} layerBuffer
@@ -16,6 +21,9 @@ class RenderLayer {
 
         /** @type { boolean } */
         this.clearFlag = false;
+
+        /** @type {boolean} */
+        this.enabled = true;
     }
 
     /**
