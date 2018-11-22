@@ -11,27 +11,27 @@ import DoubleBufferedCanvas from './DoubleBufferedCanvas.js';
 class LayeredCanvas extends DoubleBufferedCanvas {
     /**
      * @param {HTMLCanvasElement} display Main Canvas
-     * @param {Array<string>} layerIDs Names of layers to generate
+     * @param {Array<*>} layerIDs Names of layers to generate
      */
     constructor(display, layerIDs) {
         super(display);
 
         /**
-         * @type {Map<string, CanvasBuffer>} Name->CanvasBuffer mapping
+         * @type {Map<*, CanvasBuffer>} Name->CanvasBuffer mapping
          */
         this.layers = new Map();
 
-        for (let i = 0; i < layerIDs.length; i++) {
-            this.layers.set(layerIDs[i], new CanvasBuffer(display.width, display.height));
-        }
+        layerIDs.forEach((id) => {
+            this.layers.set(id, new CanvasBuffer(display.width, display.height));
+        });
     }
 
     /**
      * Get a named layer of the canvas.
      *
-     * @param {string} layerId ID of the layer to switch to
+     * @param {*} layerId ID of the layer to switch to
      */
-    getLayer(layerId, context) {
+    getLayerBuffer(layerId) {
         return this.layers.get(layerId);
     }
 
