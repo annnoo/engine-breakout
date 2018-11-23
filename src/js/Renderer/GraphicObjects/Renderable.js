@@ -1,4 +1,4 @@
-import Vec2 from "../../Math/Vec2";
+import Vec2 from '../../Math/Vec2';
 
 'use strict';
 
@@ -14,6 +14,14 @@ class Renderable {
      */
     constructor(posX, posY) {
         this.position = new Vec2(posX,posY);
+    }
+
+    /**
+     * Called every game loop tick
+     *
+     * @param {number} dtime Time passed since last call [s]
+     */
+    update(dtime) {
     }
 }
 
