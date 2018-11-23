@@ -1,7 +1,7 @@
+const AM_WAITING = 0x00;
 const AM_DOWNLOADING = 0x01;
-const AM_WAITING = 0x02;
+const AM_SUCCESS = 0x02;
 const AM_FAILED = 0x03;
-const AM_SUCCESS = 0x04;
 
 let SELF;
 
