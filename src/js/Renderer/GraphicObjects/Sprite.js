@@ -15,17 +15,13 @@ class Sprite extends Renderable {
     constructor(posX, posY, imagesrc) {
         super(posX, posY);
 
-        
-
         this.image = new Image();
         this.image.src = imagesrc;
-        
-      
+
         this.dimensions = {
             width: this.image.width,
             height: this.image.height
         };
-       
     }
 }
 
@@ -34,13 +30,9 @@ class Sprite extends Renderable {
  * @param {Sprite} sprite Rectangle to render
  */
 const renderSprite = (ctx, sprite) => {
-    
     sprite.image.onload = () => {
         ctx.drawImage(sprite.image, sprite.position.x, sprite.position.y);
-
-    }
-  
- 
+    };
 };
 
 export { renderSprite };
