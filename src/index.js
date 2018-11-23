@@ -25,7 +25,7 @@ layer.setState([...layer.state, sprite,]);
 setInterval(() => {
     layer.setClearFlag(true);
 
-        
+
     sprite.position.add(0,1);
     
 }, 100);
