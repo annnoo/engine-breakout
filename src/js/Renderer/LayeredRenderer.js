@@ -89,9 +89,7 @@ class LayeredRenderer {
                             layer.setClearFlag(false);
                         }
                         if (obj instanceof Rectangle) {
-                            renderRectangle(layer.buffer.getContext('2d'), obj);
-                            renderSprite(layer.buffer.getContext('2d'), obj);
-                            
+                            renderRectangle(layer.buffer.getContext('2d'), obj);                            
                         }
                         else if (obj instanceof Text) {
                             renderText(layer.buffer.getContext('2d'), obj);
