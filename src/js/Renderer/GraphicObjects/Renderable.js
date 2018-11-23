@@ -1,3 +1,5 @@
+import Vec2 from "../../Math/Vec2";
+
 'use strict';
 
 /**
@@ -11,7 +13,7 @@ class Renderable {
      * @param {number} posY
      */
     constructor(posX, posY) {
-        this.position = {x: posX, y: posY};
+        this.position = new Vec2(posX,posY);
     }
 }
 
