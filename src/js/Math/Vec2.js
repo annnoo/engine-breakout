@@ -169,3 +169,5 @@ class Vec2 {
 }
 
 export default Vec2;
+
+//* test

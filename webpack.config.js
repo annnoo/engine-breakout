@@ -12,7 +12,56 @@ module.exports = {
             {
                 test: /\.css$/,
                 use: ['style-loader', 'css-loader']
+            },
+            {
+                test: /\.(gif|png|jpe?g|svg)$/i,
+                use: [
+                    'file-loader',
+                    {
+                        loader: 'image-webpack-loader',
+                        options: {
+                            outputPath: 'images/',
+                            mozjpeg: {
+                                progressive: true,
+                                quality: 65
+                            },
+                            optipng: {
+                                enabled: true,
+                            },
+                            gifsicle: {
+                                interlaced: false,
+                            },
+                            webp: {
+                                quality: 75
+                            }
+                        }
+                    },
+                ],
+            },
+            {
+                test: /\.(ogg|mp3|wav|mpe?g)$/i,
+                use: [
+                    {
+                        loader: 'file-loader',
+                        options: {
+                            // name: '[name].[ext]'
+                            // outputPath: 'audio/'
+                        }
+                    }
+                ]
+            },
+            {
+                test: /\.(woff|woff2|eot|ttf|otf)$/,
+                use: [
+                    {
+                        loader: 'file-loader',
+                        options: {
+                            // outputPath: 'fonts/'
+                        }
+                    }
+                ]
             }
         ]
     }
 };
+
