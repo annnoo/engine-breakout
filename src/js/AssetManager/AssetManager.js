@@ -3,25 +3,55 @@ const AM_WAITING = 0x02;
 const AM_FAILED = 0x03;
 const AM_SUCCESS = 0x04;
 
+let SELF;
+
+const createObjectFromType = (type) => {
+    let asset;
+    switch (type) {
+    case 'image':
+        asset = new Image();
+        asset.loadEventName = 'load';
+        asset.errorEventName = 'error';
+        break;
+    case 'audio':
+        asset = new Audio();
+        asset.loadEventName = 'canplay';
+        asset.errorEventName = 'error';
+        break;
+    }
+    return asset;
+};
+
 /**
  * @author Yannik Ries
  */
 class AssetManager {
 
     constructor() {
+        if (SELF !== undefined) {
+            window.console.error('The class AssetManager is a singleton. You can not create more than one object');
+        } else {
+            SELF = this;
+        }
         this.idCount = 0;
         this.cache = [];
-        this.cachePointer = 0;
-        this.reset();
+        this.state = AM_WAITING;
+        this.clear(false);
     }
 
     /**
      * Resets the success and fail count.
-     * Does not clear the idCount and cache!
+     * If it is not a soft reset, it updates the cachePointer to the cache length.
+     * So assets that are waiting for a download, will never be downloaded.
+     * The method does not clear the idCount and cache!
+     *
      */
-    reset() {
-        this.successCount = 0;
-        this.failCount = 0;
+    clear(soft = true) {
+        SELF.successCount = 0;
+        SELF.failCount = 0;
+        if (!soft) {
+            SELF.cachePointer = SELF.cache.length;
+        }
     }
 
     /**
@@ -65,71 +95,81 @@ class AssetManager {
     }
 
     /**
+     * Clears the success and fail count.
      * Downloads the latest assets of the download queue.
+     *
+     * @see reset
      *
      * @param callback Call after all downloads are finished.
      * Call with a boolean parameter that represents the whole success
      */
     downloadAll(callback) {
+        if (SELF.state === AM_DOWNLOADING) {
+            window.setTimeout(SELF.downloadAll, 1200, callback);
+            return;
+        }
+        SELF.state = AM_DOWNLOADING;
 
-        for (let i = this.cachePointer; i < this.cache.length - this.cachePointer; i++) {
+        SELF.clear(true);
+        SELF.currentDownloads = SELF.cache.length - SELF.cachePointer;
 
-            let cacheEntry = this.cache[i];
-            let asset = this.createObjectFromType(cacheEntry.assetType);
+        for (let i = SELF.cachePointer; i < SELF.cachePointer + SELF.currentDownloads; i++) {
+            let cacheEntry = SELF.cache[i];
+
+            let asset = createObjectFromType(cacheEntry.assetType);
 
             asset.addEventListener(asset.loadEventName, () => {
-                this.successCount++;
-                window.console.log('load');
-                if(this.successCount+this.failCount==this.cache.length-this.cachePointer){
-                    cacheEntry.stack = AM_SUCCESS;
-                    callback(this.failCount==0);
-                    this.reset();
-                }
+                cacheEntry.state = AM_SUCCESS;
+                SELF.successCount++;
+                SELF._onDownloadsFinished(callback);
             });
             asset.addEventListener(asset.errorEventName, () => {
-                this.failCount++;
-                window.console.error('Could not load asset '+asset.src);
-
-                if(this.successCount+this.failCount==this.cache.length-this.cachePointer){
-                    cacheEntry.stack = AM_FAILED;
-                    callback(this.failCount==0);
-                    this.reset();
-                }
+                cacheEntry.state = AM_FAILED;
+                SELF.failCount++;
+                SELF._onDownloadsFinished(callback);
             });
-            this.cache[i].state = AM_DOWNLOADING;
-            this.cache[i].asset = asset;
-            asset.src = this.cache[i].path;
+            SELF.cache[i].state = AM_DOWNLOADING;
+            SELF.cache[i].asset = asset;
+            asset.src = SELF.cache[i].path;
         }
-
-        this.cachePointer = this.cache.length;
     }
 
-    createObjectFromType(type){
-        window.console.log(type);
-        let asset;
-        switch (type) {
-        case 'image':
-            asset = new Image();
-            asset.loadEventName = 'load';
-            asset.errorEventName = 'error';
-            break;
-        case 'audio':
-            asset = new Audio();
-            asset.loadEventName = 'canplay';
-            asset.errorEventName = 'error';
-            break;
+    _onDownloadsFinished(callback) {
+        if (SELF.state === AM_WAITING) return;
+        if (SELF.successCount + SELF.failCount == SELF.currentDownloads) {
+            SELF.state = AM_WAITING;
+
+            SELF.cachePointer += SELF.currentDownloads;
+
+            SELF.currentDownloads = 0;
+            let success = SELF.failCount == 0;
+            callback(success);
+            SELF.state = success ? AM_SUCCESS : AM_FAILED;
         }
-        return asset;
     }
 
     /**
-     * Returns the cache entry of the given id.
+     * Returns the asset of the given id.
+     * Please check the state with getAssetState to ensure that it is available.
+     *
+     * @see getAssetState
      *
      * @param id
-     * @returns {*} Cache entry with downloaded asset
+     * @returns {*} Asset
      */
-    getAsset(id){
-        return this.cache[id];
+    getAsset(id) {
+        return this.cache[id].asset;
+    }
+
+    /**
+     * Returns the state of the asset.
+     * AM_FAILED, AM_SUCCESS, AM_DOWNLOADING or AM_WAITING
+     *
+     * @param id
+     * @returns {*} State of the asset.
+     */
+    getAssetState(id) {
+        return this.cache[id].state;
     }
 
 }
