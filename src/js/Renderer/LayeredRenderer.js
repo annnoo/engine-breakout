@@ -90,8 +90,7 @@ class LayeredRenderer {
                         }
                         if (obj instanceof Rectangle) {
                             renderRectangle(layer.buffer.getContext('2d'), obj);
-                            renderSprite(layer.buffer.getContext('2d'), obj);
-                            
+
                         }
                         else if (obj instanceof Text) {
                             renderText(layer.buffer.getContext('2d'), obj);
@@ -100,7 +99,7 @@ class LayeredRenderer {
                             renderSprite(layer.buffer.getContext('2d'), obj);
                         }
 
-                        
+
                     });
                 }
             });
