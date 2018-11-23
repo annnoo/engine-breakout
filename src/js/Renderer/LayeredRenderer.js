@@ -5,6 +5,7 @@ import RenderLayer from './RenderLayer.js';
 import Rectangle, { renderRectangle } from './GraphicObjects/Rectangle.js';
 import CanvasBuffer from './Canvas/CanvasBuffer.js';
 import Text, { renderText } from './GraphicObjects/Text.js';
+import Sprite, { renderSprite } from './GraphicObjects/Sprite.js';
 
 const DEBUG_LAYER_ID = '__debug';
 
@@ -89,10 +90,17 @@ class LayeredRenderer {
                         }
                         if (obj instanceof Rectangle) {
                             renderRectangle(layer.buffer.getContext('2d'), obj);
+                            renderSprite(layer.buffer.getContext('2d'), obj);
+                            
                         }
                         else if (obj instanceof Text) {
                             renderText(layer.buffer.getContext('2d'), obj);
                         }
+                        else if (obj instanceof Sprite) {
+                            renderSprite(layer.buffer.getContext('2d'), obj);
+                        }
+
+                        
                     });
                 }
             });
