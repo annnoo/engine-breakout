@@ -1,13 +1,13 @@
 'use strict';
 
-import Renderable from './Renderable';
+import GameObject from './GameObject';
 
 /**
  * A rectangle. Obviously.
  *
  * @author Christian Danscheid
  */
-class Rectangle extends Renderable {
+class Rectangle extends GameObject {
     /**
      * @param {number} posX
      * @param {number} posY
@@ -21,6 +21,10 @@ class Rectangle extends Renderable {
             width: width,
             height: height
         };
+    }
+
+    draw(context) {
+        renderRectangle(context, this);
     }
 }
 
@@ -37,5 +41,4 @@ const renderRectangle = (ctx, rectangle) => {
     );
 };
 
-export { renderRectangle };
 export default Rectangle;

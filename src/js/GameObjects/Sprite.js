@@ -1,13 +1,13 @@
 'use strict';
 
-import Renderable from './Renderable';
+import GameObject from './GameObject';
 
 /**
  * A rectangle. Obviously.
  *
  * @author Anno
  */
-class Sprite extends Renderable {
+class Sprite extends GameObject {
     /**
      * @param {number} posX
      * @param {number} posY
@@ -23,6 +23,10 @@ class Sprite extends Renderable {
             height: this.image.height
         };
     }
+
+    draw(context) {
+        renderSprite(context, this);
+    }
 }
 
 /**
@@ -35,5 +39,4 @@ const renderSprite = (ctx, sprite) => {
     };
 };
 
-export { renderSprite };
 export default Sprite;
