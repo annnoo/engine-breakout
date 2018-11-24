@@ -1,11 +1,15 @@
-import Renderable from "./Renderable";
-
 'use strict';
 
-class Text extends Renderable {
+import GameObject from './GameObject';
+
+class Text extends GameObject {
     constructor(posX, posY, text) {
         super(posX, posY);
         this.text = text;
+    }
+
+    draw(context) {
+        renderText(context, this);
     }
 }
 
@@ -18,4 +22,3 @@ const renderText = (ctx, text) => {
 };
 
 export default Text;
-export { renderText };
