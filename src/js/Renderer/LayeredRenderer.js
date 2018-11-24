@@ -3,7 +3,7 @@
 import LayeredCanvas from './Canvas/LayeredCanvas.js';
 import RenderLayer from './RenderLayer.js';
 import CanvasBuffer from './Canvas/CanvasBuffer.js';
-import Text from '../GraphicObjects/Text.js';
+import Text from '../GameObjects/Text';
 import Renderable from './Renderable';
 
 const DEBUG_LAYER_ID = '__debug';
