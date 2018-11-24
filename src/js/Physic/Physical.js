@@ -21,6 +21,14 @@ class Physical extends Renderable {
     update(dtime) {
     }
 
+    /**
+     * Called to revert the current update
+     *
+     * @param {number} dtime Time passed since last call [s]
+     */
+    rollback(dtime) {
+    }
+
 }
 
 export default Physical;
