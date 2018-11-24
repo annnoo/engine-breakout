@@ -11,12 +11,12 @@ class Sprite extends GameObject {
     /**
      * @param {number} posX
      * @param {number} posY
+     * @param {Image} image
      */
-    constructor(posX, posY, imagesrc) {
+    constructor(posX, posY, image) {
         super(posX, posY);
 
-        this.image = new Image();
-        this.image.src = imagesrc;
+        this.image = image;
 
         this.dimensions = {
             width: this.image.width,
@@ -34,9 +34,7 @@ class Sprite extends GameObject {
  * @param {Sprite} sprite Rectangle to render
  */
 const renderSprite = (ctx, sprite) => {
-    sprite.image.onload = () => {
-        ctx.drawImage(sprite.image, sprite.position.x, sprite.position.y);
-    };
+    ctx.drawImage(sprite.image, sprite.position.x, sprite.position.y);
 };
 
 export default Sprite;
