@@ -30,7 +30,8 @@ class GameObject extends Physical {
         if(this.speed===0) return;
         let len = this.direction.length();
         let multiplier = this.speed/len;
-        let velocity = this.direction.multiply(multiplier*dtime);
+        let velocity = this.direction.clone().multiply(multiplier*dtime);
+        velocity.y = -velocity.y; //because (0, 0) is left top
         this.position.addVec(velocity);
         this.area.move(velocity.x, velocity.y);
     }
@@ -40,6 +41,7 @@ class GameObject extends Physical {
         let len = this.direction.length();
         let multiplier = this.speed/len;
         let velocity = this.direction.multiply(multiplier*dtime);
+        velocity.y = -velocity.y; //because (0, 0) is left top
         this.position.subVec(velocity);
         this.area.move(-velocity.x, -velocity.y);
     }
@@ -60,6 +62,15 @@ class GameObject extends Physical {
      */
     getSpeed(){
         return this.speed;
+    }
+
+    /**
+     * Returns if the object's speed is >= 0.
+     *
+     * @returns {boolean} If the object is movable
+     */
+    isMovable(){
+        return this.speed>0;
     }
 
     /**
