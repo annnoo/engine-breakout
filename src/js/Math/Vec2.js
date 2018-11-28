@@ -166,6 +166,24 @@ class Vec2 {
         return(Math.pow(this.x - other.x,2) + Math.pow(this.y - other.y,2));
     }
 
+    /**
+     * Returns the new created reflection vector.
+     *
+     * @param other Vec2 at which reflection take place
+     */
+    reflect(other){
+
+        //k = direction
+        //k' = 2 * dot(n, k) * n - k
+
+        let n = other.clone().normalize();
+        let k = this.clone();
+        let dot = 2 * n.dot(k);
+        let tmp = n.clone().multiply(dot);
+
+        return tmp.subVec(k);
+    }
+
 }
 
 export default Vec2;

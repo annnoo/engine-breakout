@@ -35,35 +35,19 @@ class CollisionDetector {
                         oLayer.state.forEach((oGameObject) => {
                             if (oGameObject.isCollidable() && tGameObject != oGameObject) {
                                 if (tGameObject.area.collidesWith(oGameObject.area, depth)) {
-                                    let ignorePhysics = tGameObject.onCollideWith(oGameObject);
+
+                                    //check which object is movable => call onCollideWith on the movable object
+                                    let ignorePhysics = false;
+                                    if(tGameObject.isMovable()){
+                                        ignorePhysics = tGameObject.onCollideWith(oGameObject);
+                                    }else if(oGameObject.isMovable()){
+                                        ignorePhysics = oGameObject.onCollideWith(tGameObject);
+                                    }else{
+                                        ignorePhysics = tGameObject.onCollideWith(oGameObject);
+                                    }
+
                                     if (!ignorePhysics) {
-
-                                        //TODO: fix calculation!
-
-                                        let i = tGameObject.getDirection();
-                                        let n = oGameObject.getDirection().normalize();
-
-                                        let dot = i.clone().dot(n);
-
-                                        let v = i.subVec(n.multiply(2 * dot));
-
-                                        window.console.log('prev dir=');
-                                        window.console.dir(tGameObject.getDirection());
-
-                                        tGameObject.rollback(dtime);
-                                        tGameObject.setDirection(v);
-
-                                        window.console.log('now dir=');
-                                        window.console.dir(tGameObject.getDirection());
-                                        window.console.log('');
-
-                                        i = oGameObject.getDirection();
-                                        n = tGameObject.getDirection().normalize();
-
-                                        dot = i.clone().dot(n);
-
-                                        v = i.subVec(n.multiply(2 * dot));
-                                        oGameObject.setDirection(v);
+                                        updateDirections(tGameObject, oGameObject, dtime);
                                     }
                                 }
                             }
@@ -75,5 +59,39 @@ class CollisionDetector {
     }
 
 }
+
+const updateDirections = (tGameObject, oGameObject, dtime) => {
+    //TODO: fix calculation!
+
+    let tDir = tGameObject.getDirection();
+    let oDir = oGameObject.getDirection();
+
+    if(tGameObject.isMovable()) {
+        tGameObject.rollback(dtime);
+
+        window.console.log(tGameObject.name+": origin dir");
+        window.console.log(tDir);
+        tGameObject.setDirection(tDir.reflect(oDir));
+        window.console.log(tGameObject.name+": reflect dir");
+        window.console.log(tDir.reflect(oDir));
+        window.console.log(tGameObject.name+": new dir");
+        window.console.log(tGameObject.getDirection());
+        window.console.log("");
+
+    }
+    if(oGameObject.isMovable()) {
+
+        oGameObject.rollback(dtime);
+        window.console.log(oGameObject.name+": origin dir");
+        window.console.log(oDir);
+        oGameObject.setDirection(oDir.reflect(tDir));
+        window.console.log(tGameObject.name+": reflect dir");
+        window.console.log(oDir.reflect(tDir));
+        window.console.log(oGameObject.name+": new dir");
+        window.console.log(oGameObject.getDirection());
+        window.console.log("");
+    }
+
+};
 
 export default CollisionDetector;

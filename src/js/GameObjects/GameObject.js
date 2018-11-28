@@ -16,7 +16,7 @@ class GameObject extends Physical {
      * @param {Area} area Initial y position
      * @param {boolean} collidable If the object can collide with other collidable objects
      */
-    constructor(posX, posY, area, collidable){
+    constructor(posX, posY, area, collidable) {
         super();
         this.position = new Vec2(posX, posY);
         this.direction = new Vec2(0, 0);
@@ -27,23 +27,32 @@ class GameObject extends Physical {
 
     update(dtime) {
         super.update(dtime);
-        if(this.speed===0) return;
-        let len = this.direction.length();
-        let multiplier = this.speed/len;
-        let velocity = this.direction.clone().multiply(multiplier*dtime);
-        velocity.y = -velocity.y; //because (0, 0) is left top
-        this.position.addVec(velocity);
-        this.area.move(velocity.x, velocity.y);
+        this._update(dtime);
     }
 
     rollback(dtime) {
         super.rollback(dtime);
+        this._update(dtime, true);
+    }
+
+    /**
+     * Calculates and updates the position of the object with its direction and speed.
+     *
+     * @param dtime Time since last call [s]
+     * @param invert If the direction should be inverted
+     * @private
+     */
+    _update(dtime, invert = false) {
+        if (this.speed === 0) return;
         let len = this.direction.length();
-        let multiplier = this.speed/len;
-        let velocity = this.direction.multiply(multiplier*dtime);
+        let multiplier = this.speed / len;
+        let velocity = this.direction.clone().multiply(multiplier * dtime);
         velocity.y = -velocity.y; //because (0, 0) is left top
-        this.position.subVec(velocity);
-        this.area.move(-velocity.x, -velocity.y);
+        if(invert){
+            velocity.multiply(-1);
+        }
+        this.position.addVec(velocity);
+        this.area.move(velocity.x, velocity.y);
     }
 
     /**
@@ -51,7 +60,7 @@ class GameObject extends Physical {
      *
      * @param {number} speed Pixel per second
      */
-    setSpeed(speed){
+    setSpeed(speed) {
         this.speed = speed;
     }
 
@@ -60,7 +69,7 @@ class GameObject extends Physical {
      *
      * @returns {number} Pixel per second
      */
-    getSpeed(){
+    getSpeed() {
         return this.speed;
     }
 
@@ -69,8 +78,8 @@ class GameObject extends Physical {
      *
      * @returns {boolean} If the object is movable
      */
-    isMovable(){
-        return this.speed>0;
+    isMovable() {
+        return this.speed > 0;
     }
 
     /**
@@ -78,7 +87,7 @@ class GameObject extends Physical {
      *
      * @param {Vec2} direction Direction as Vec2
      */
-    setDirection(direction){
+    setDirection(direction) {
         this.direction = direction;
     }
 
@@ -87,11 +96,11 @@ class GameObject extends Physical {
      *
      * @returns {Vec2} A clone of the direction
      */
-    getDirection(){
+    getDirection() {
         return this.direction.clone();
     }
 
-    isCollidable(){
+    isCollidable() {
         return this.collidable;
     }
 
@@ -102,7 +111,7 @@ class GameObject extends Physical {
      * @param gameObject
      * @returns {boolean} If physics sould be ignored in this individual case
      */
-    onCollideWith(gameObject){
+    onCollideWith(gameObject) {
         return false;
     }
 
