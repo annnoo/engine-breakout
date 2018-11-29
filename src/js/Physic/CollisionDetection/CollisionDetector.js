@@ -68,30 +68,12 @@ const updateDirections = (tGameObject, oGameObject, dtime) => {
 
     if(tGameObject.isMovable()) {
         tGameObject.rollback(dtime);
-
-        window.console.log(tGameObject.name+": origin dir");
-        window.console.log(tDir);
         tGameObject.setDirection(tDir.reflect(oDir));
-        window.console.log(tGameObject.name+": reflect dir");
-        window.console.log(tDir.reflect(oDir));
-        window.console.log(tGameObject.name+": new dir");
-        window.console.log(tGameObject.getDirection());
-        window.console.log("");
-
     }
     if(oGameObject.isMovable()) {
-
         oGameObject.rollback(dtime);
-        window.console.log(oGameObject.name+": origin dir");
-        window.console.log(oDir);
         oGameObject.setDirection(oDir.reflect(tDir));
-        window.console.log(tGameObject.name+": reflect dir");
-        window.console.log(oDir.reflect(tDir));
-        window.console.log(oGameObject.name+": new dir");
-        window.console.log(oGameObject.getDirection());
-        window.console.log("");
     }
-
 };
 
 export default CollisionDetector;
