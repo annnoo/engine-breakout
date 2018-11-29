@@ -1,3 +1,5 @@
+'use strict';
+
 import DOMScene from './DOMScene';
 import CANVAS_SCENE_TEMPLATE from './canvas.template.html';
 import LayeredRenderer from '../Renderer/LayeredRenderer';
