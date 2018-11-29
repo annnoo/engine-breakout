@@ -18,6 +18,8 @@ class CanvasScene extends AbstractScene {
      * @override
      */
     onUpdate(dtime) {
+        super.onUpdate(dtime);
+
         this.state.forEach(layer => {
             layer.forEach(gameObject => {
                 gameObject.onUpdate(dtime);

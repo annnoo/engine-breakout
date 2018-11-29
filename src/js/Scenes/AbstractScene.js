@@ -3,14 +3,20 @@
  */
 class AbstractScene {
     constructor(keybindings, app) {
-        this.keybindings = keybindings;
-        this.app = app;
+        this._keybindings = keybindings;
+        this._app = app;
     }
 
     /**
      * Called when scene shows up.
      */
     onActivate() {
+    }
+
+    /**
+     * Called when scene ends.
+     */
+    onDeactivate() {
     }
 
     /**
