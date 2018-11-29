@@ -1,16 +1,17 @@
-import AbstractScene from './AbstractScene';
+import DOMScene from './DOMScene';
+import template from './canvas.template.html';
 
 /**
  * @author Christian Danscheid
  */
-class CanvasScene extends AbstractScene {
+class CanvasScene extends DOMScene {
     /**
      * @param {Array<Array<*>>} stateContainer
      * @param {*} keybindings
      * @param {*} app
      */
     constructor(stateContainer, keybindings, app) {
-        super(keybindings, app);
+        super(template, keybindings, app);
         this.state = stateContainer;
     }
 
