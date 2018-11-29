@@ -1,5 +1,6 @@
 import DOMScene from './DOMScene';
 import template from './canvas.template.html';
+import LayeredRenderer from '../Renderer/LayeredRenderer';
 
 /**
  * @author Christian Danscheid
@@ -10,18 +11,28 @@ class CanvasScene extends DOMScene {
      * @param {*} keybindings
      * @param {*} app
      */
-    constructor(stateContainer, keybindings, app) {
+    constructor(layerIDs, stateContainer, keybindings, app) {
         super(template, keybindings, app);
+
         this.state = stateContainer;
+        this.layerIDs = layerIDs;
+        this.renderer = null;
     }
 
     /**
      * @override
      */
-    onActivate() {
-        super.onActivate();
+    onBeforeMount() {
+        const node = super.onBeforeMount();
 
-        this.app.renderManager.registerRenderLoop;
+        const canvas = node.content.querySelector('canvas');
+        this.renderer = new LayeredRenderer(canvas, this.layerIDs);
+
+        return node;
+    }
+
+    onAfterMount() {
+        this.renderer.registerRenderLoop();
     }
 
     /**

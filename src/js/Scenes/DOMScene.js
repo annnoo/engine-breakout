@@ -17,10 +17,18 @@ class DOMScene {
 
     /**
      * Called right before the scene's DOM node gets mounted.
+     * Must return the HTMLTemplateElement for the layer.
      *
-     * @param {object} arguments Arguments passed during activation.
+     * @returns {HTMLTemplateElement}
      */
-    onActivate(arguments) {
+    onBeforeMount() {
+        return this.template.content.cloneNode(true);
+    }
+
+    /**
+     * Called after the scene DOM node has been mounted.
+     */
+    onAfterMount() {
     }
 
     /**
@@ -29,12 +37,8 @@ class DOMScene {
      *
      * @param {object} arguments Arguments passed by SceneManager.activateScene
      */
-    onDeactivate(arguments) {
+    onBeforeUnmount(arguments) {
         return arguments;
-    }
-
-    getNode() {
-        return this.template.content.cloneNode(true);
     }
 }
 

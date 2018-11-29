@@ -38,17 +38,24 @@ class SceneManager {
      * @param {object} arguments Arguments to pass to next screen (e.g. scores)
      */
     activateScene(sceneId, arguments = {}) {
+        // Safety check!
         if (this.registeredScenes[sceneId]) {
+            // If an active scene exists
             if (this.activeSceneDomNode) {
-                arguments = this.registeredScenes[this.activeScene].onDeactivate(arguments);
+                // Shut down old scene, then remove it from DOM
+                arguments = this.registeredScenes[this.activeScene].onBeforeUnmount(arguments);
                 this.domNode.removeChild(activeSceneDomNode);
             }
 
+            // Update active scene pointer
             this.activeScene = sceneId;
 
-            this.activeSceneDomNode = this.registeredScenes[this.activeScene].getNode();
-            this.registeredScenes[this.activateScene].onActivate(arguments);
+            // Get DOM node of new scene, add it to DOM
+            this.activeSceneDomNode = this.registeredScenes[this.activeScene].onBeforeMount(arguments);
             this.domNode.appendChild(this.activeSceneDomNode);
+
+            //TODO: Update keybindings for InputManager here
+            this.registeredScenes[this.activeScene].onAfterMount();
         }
         else {
             window.console.error(
@@ -63,7 +70,7 @@ class SceneManager {
      * @param {number} dtime Time since last tick
      */
     onUpdate(dtime) {
-        this.registeredScenes.forEach(scene => scene.onUpdate(dtime));
+        this.registeredScenes[this.activeScene].onUpdate(dtime);
     }
 }
 
