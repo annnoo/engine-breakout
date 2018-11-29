@@ -35,27 +35,43 @@ class SceneManager {
      * Activate a registered scene.
      *
      * @param {*} sceneId Identifier of next scene
-     * @param {object} arguments Arguments to pass to next screen (e.g. scores)
+     * @param {object} args Arguments to pass to next screen (e.g. scores)
      */
-    activateScene(sceneId, arguments = {}) {
+    activateScene(sceneId, args = {}) {
         // Safety check!
         if (this.registeredScenes[sceneId]) {
             // If an active scene exists
             if (this.activeSceneDomNode) {
                 // Shut down old scene, then remove it from DOM
-                arguments = this.registeredScenes[this.activeScene].onBeforeUnmount(arguments);
-                this.domNode.removeChild(activeSceneDomNode);
+                args = this.registeredScenes[this.activeScene].onBeforeUnmount(args);
+
+                // This code does not want to work because of DocumentFragment stuff
+                // this.domNode.removeChild(this.activeSceneDomNode);
+                // Here's a workaround (problem: removes everything from container)
+                while (this.domNode.firstChild) {
+                    this.domNode.removeChild(this.domNode.firstChild);
+                }
             }
 
             // Update active scene pointer
             this.activeScene = sceneId;
 
             // Get DOM node of new scene, add it to DOM
-            this.activeSceneDomNode = this.registeredScenes[this.activeScene].onBeforeMount(arguments);
-            this.domNode.appendChild(this.activeSceneDomNode);
+            const newNode = this.registeredScenes[this.activeScene].onBeforeMount(args);
+            this.domNode.appendChild(newNode);
+
+            // no idea why, but these two will not be identical
+            this.activeSceneDomNode = newNode;
 
             //TODO: Update keybindings for InputManager here
             this.registeredScenes[this.activeScene].onAfterMount();
+
+            if (this.registeredScenes[this.activeScene] instanceof CanvasScene) {
+                return this.registeredScenes[this.activeScene].renderer.layers;
+            }
+            else {
+                return null;
+            }
         }
         else {
             window.console.error(

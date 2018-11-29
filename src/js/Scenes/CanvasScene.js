@@ -21,6 +21,7 @@ class CanvasScene extends DOMScene {
 
         this.layerIDs = layerIDs;
         this.renderer = null;
+        this.gameloop = null;
     }
 
     /**
@@ -29,8 +30,9 @@ class CanvasScene extends DOMScene {
     onBeforeMount() {
         const node = super.onBeforeMount();
 
-        const canvas = node.content.querySelector('canvas');
+        const canvas = node.querySelector('canvas');
         this.renderer = new LayeredRenderer(canvas, this.layerIDs);
+        this.gameloop = new GameLoop(this.renderer.layers);
 
         return node;
     }
@@ -40,12 +42,14 @@ class CanvasScene extends DOMScene {
      */
     onAfterMount() {
         this.renderer.registerRenderLoop();
+        this.gameloop.start(60);
     }
 
     /**
      * @override
      */
     onBeforeUnmount() {
+        this.gameloop.stop();
         this.renderer.unregisterRenderLoop();
     }
 

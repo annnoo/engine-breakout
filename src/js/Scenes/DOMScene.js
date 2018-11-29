@@ -19,12 +19,11 @@ class DOMScene {
 
     /**
      * Called right before the scene's DOM node gets mounted.
-     * Must return the HTMLTemplateElement for the layer.
+     * Must return a clone of the template.
      *
-     * @param {object} arguments Arguments passed from theSceneManager or the scene before
-     * @returns {HTMLTemplateElement}
+     * @param {object} args Arguments passed from theSceneManager or the scene before
      */
-    onBeforeMount(arguments) {
+    onBeforeMount(args) {
         return this.template.content.cloneNode(true);
     }
 
@@ -38,10 +37,10 @@ class DOMScene {
      * Called right before the scene's DOM node gets unmounted. Last chance
      * to change arguments to pass to next scene. Must return arguments.
      *
-     * @param {object} arguments Arguments passed by SceneManager.activateScene
+     * @param {object} args Arguments passed by SceneManager.activateScene
      */
-    onBeforeUnmount(arguments) {
-        return arguments;
+    onBeforeUnmount(args) {
+        return args;
     }
 }
 

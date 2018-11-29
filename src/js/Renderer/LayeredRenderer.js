@@ -53,7 +53,7 @@ class LayeredRenderer {
             this.DEBUG_FPS_COUNTER
         ]);
 
-        layer.enabled = true;
+        layer.enabled = this.debugEnabled;
     }
 
     /**
