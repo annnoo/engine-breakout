@@ -16,13 +16,14 @@ class GameObject extends Physical {
      * @param {Area} area Initial y position
      * @param {boolean} collidable If the object can collide with other collidable objects
      */
-    constructor(posX, posY, area, collidable) {
+    constructor(posX, posY, area, collidable, prefereCircleCollider = false) {
         super();
         this.position = new Vec2(posX, posY);
         this.direction = new Vec2(0, 0);
         this.speed = 0; //pixel per second
         this.area = area;
         this.collidable = collidable;
+        this.prefereCircleCollider = prefereCircleCollider;
     }
 
     update(dtime) {
@@ -44,9 +45,7 @@ class GameObject extends Physical {
      */
     _update(dtime, invert = false) {
         if (this.speed === 0) return;
-        let len = this.direction.length();
-        let multiplier = this.speed / len;
-        let velocity = this.direction.clone().multiply(multiplier * dtime);
+        let velocity = this.direction.clone().multiply(this.speed * dtime);
         velocity.y = -velocity.y; //because (0, 0) is left top
         if(invert){
             velocity.multiply(-1);
@@ -88,7 +87,7 @@ class GameObject extends Physical {
      * @param {Vec2} direction Direction as Vec2
      */
     setDirection(direction) {
-        this.direction = direction;
+        this.direction = direction.clone().normalize();
     }
 
     /**
@@ -102,6 +101,10 @@ class GameObject extends Physical {
 
     isCollidable() {
         return this.collidable;
+    }
+
+    preferesCircleCollider() {
+        return this.prefereCircleCollider;
     }
 
     /**

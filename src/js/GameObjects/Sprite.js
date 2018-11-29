@@ -15,8 +15,8 @@ class Sprite extends GameObject {
      * @param {Image} image
      * @param {boolean} collidable
      */
-    constructor(posX, posY, image, collidable = true) {
-        super(posX, posY, new Area(posX, posY, image.width, image.height), collidable);
+    constructor(posX, posY, image, collidable = true, drawbox = true) {
+        super(posX, posY, new Area(posX, posY, image.width, image.height), collidable, true);
 
         this.image = image;
 
@@ -24,6 +24,8 @@ class Sprite extends GameObject {
             width: this.image.width,
             height: this.image.height
         };
+
+        this.drawbox = drawbox;
     }
 
     update(dtime) {
@@ -42,6 +44,10 @@ class Sprite extends GameObject {
  */
 const renderSprite = (ctx, sprite) => {
     ctx.drawImage(sprite.image, sprite.position.x, sprite.position.y);
+    ctx.strokeRect(
+        sprite.position.x, sprite.position.y,
+        sprite.image.width, sprite.image.height
+    );
 };
 
 export default Sprite;

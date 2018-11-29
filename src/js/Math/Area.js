@@ -1,5 +1,7 @@
 'use strict';
 
+import Vec2 from './Vec2';
+
 /**
  * This is similar to a rectangle with the speciality that an area can consists of multiple subareas
  *
@@ -47,6 +49,14 @@ class Area {
         return this.height;
     }
 
+    getMidX(){
+        return this.leftX+this.width/2;
+    }
+
+    getMidY(){
+        return this.topY+this.height/2;
+    }
+
     /**
      * Moves the area and its subareas by the given offset.
      *
@@ -84,12 +94,14 @@ class Area {
      * Returns if the area collides with the given area. You can limit the amount of
      * recursive calls with the deepness in favour of accuracy.
      *
+     * Calculates a collision with the box collider.
+     *
      * @param {Area} area Other area
      * @param {number} depth Deepness of the recursive calls.
      *      -1 = everything, 0 = the current area, 1 = includes subareas, 2 = includes the subareas of subareas, ...
      * @returns {boolean} If the area includes or collides with the given area
      */
-    collidesWith(area, depth) {
+    boxCollidesWith(area, depth) {
         if(area===undefined||area===null) return false;
 
         if (this.leftX < area.getRightX() &&
@@ -107,6 +119,23 @@ class Area {
             });
         });
         return false;
+    }
+
+    /**
+     * Returns if the area collides with the given area.
+     *
+     * Calculates a collision with the circle collider.
+     *
+     * @param {Area} area Other area
+     * @returns {boolean} If the area includes or collides with the given area
+     */
+    circleCollidesWith(area){
+        if(area===undefined||area===null) return false;
+
+        let tMid = new Vec2(this.getMidX(), this.getMidY());
+        let oMid = new Vec2(area.getMidX(), area.getMidY());
+
+        return tMid.subVec(oMid).length() <= this.width/2+area.width/2;
     }
 
 }
