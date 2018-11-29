@@ -13,15 +13,9 @@ class DOMScene {
         this.template = template;
     }
 
-    /**
-     * @override
-     */
     onActivate() {
     }
 
-    /**
-     * @override
-     */
     onDeactivate() {
     }
 

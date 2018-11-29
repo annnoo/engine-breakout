@@ -18,6 +18,15 @@ class CanvasScene extends DOMScene {
     /**
      * @override
      */
+    onActivate() {
+        super.onActivate();
+
+        this.app.renderManager.registerRenderLoop;
+    }
+
+    /**
+     * @override
+     */
     onUpdate(dtime) {
         super.onUpdate(dtime);
 
