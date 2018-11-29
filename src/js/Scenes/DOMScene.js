@@ -21,9 +21,10 @@ class DOMScene {
      * Called right before the scene's DOM node gets mounted.
      * Must return the HTMLTemplateElement for the layer.
      *
+     * @param {object} arguments Arguments passed from theSceneManager or the scene before
      * @returns {HTMLTemplateElement}
      */
-    onBeforeMount() {
+    onBeforeMount(arguments) {
         return this.template.content.cloneNode(true);
     }
 
