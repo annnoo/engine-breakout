@@ -12,6 +12,9 @@ Register scenes with `sceneManager.registerScene(id, scene)`. Switch between sce
 #### Scenes
 There are two types of scenes: DOM-Scenes and Canvas-Scenes. DOM-Scenes consist of arbitrary HTML and CSS, maybe even JS (untested). Canvas Scenes only have a `<canvas>` with a `LayeredRenderer` instance.
 
+##### Accessing state
+Only Canvas-Scenes have state (two dimensional array of layers and game objects). Access it using `scene.renderer.getLayer(id).state`.
+
 ##### Lifecycle
 1. onBeforeMount(arguments): Called when the scene gets activated and right before the scene's DOM node is mounted into the document. Receives an object with arguments passed by the last scene or the SceneManager. Must return the DOM node to mount.
 
