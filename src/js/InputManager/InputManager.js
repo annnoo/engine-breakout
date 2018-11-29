@@ -8,6 +8,7 @@ class InputManager {
         /** @type {Object.<string,number[]>} */
         this.keyMap = {};
         this.keyStates = {};
+        this.allKeys = [];
         this.enableEventHandlers();
     }
 
@@ -55,6 +56,10 @@ class InputManager {
         }
         
         this.keyMap[inputAlias].push(keycode);
+        if(this.allKeys.indexOf(keycode) >= 0){
+            this.allKeys.push(keycode);
+        }
+        
     }
 
     /**
@@ -77,6 +82,18 @@ class InputManager {
                 }
             }
             
+        }
+        return false;
+    }
+
+    /**
+     * @returns {boolean} 
+     */
+    anyKeyPressed(){
+        for (let index = 0; index < this.allKeys.length; index++) {
+            if(this.keyStates[this.allKeys[index]] === true ){
+                return true;
+            }
         }
         return false;
     }
