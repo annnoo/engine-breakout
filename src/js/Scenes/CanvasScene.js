@@ -1,20 +1,22 @@
 import DOMScene from './DOMScene';
-import template from './canvas.template.html';
+import CANVAS_SCENE_TEMPLATE from './canvas.template.html';
 import LayeredRenderer from '../Renderer/LayeredRenderer';
 
 /**
+ * A Game scene based on a canvas with multiple layers and
+ * many Game Objects per layer.
+ *
  * @author Christian Danscheid
  */
 class CanvasScene extends DOMScene {
     /**
-     * @param {Array<Array<*>>} stateContainer
-     * @param {*} keybindings
-     * @param {*} app
+     * @param {Array<*>} layerIDs IDs of layers to generate
+     * @param {*} keybindings todo: connect to InputManager
+     * @param {*} app todo: connect to app
      */
-    constructor(layerIDs, stateContainer, keybindings, app) {
-        super(template, keybindings, app);
+    constructor(layerIDs, keybindings, app) {
+        super(CANVAS_SCENE_TEMPLATE, keybindings, app);
 
-        this.state = stateContainer;
         this.layerIDs = layerIDs;
         this.renderer = null;
     }
@@ -31,8 +33,18 @@ class CanvasScene extends DOMScene {
         return node;
     }
 
+    /**
+     * @override
+     */
     onAfterMount() {
         this.renderer.registerRenderLoop();
+    }
+
+    /**
+     * @override
+     */
+    onBeforeUnmount() {
+        this.renderer.unregisterRenderLoop();
     }
 
     /**

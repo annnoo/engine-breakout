@@ -1,6 +1,8 @@
 'use strict';
 
 /**
+ * A game scene that is made from HTML.
+ *
  * @author Christian Danscheid
  */
 class DOMScene {
