@@ -41,7 +41,7 @@ sceneManager.registerScene('my-scene', myScene);
 ```html
 <template>
     <h1>Main Menu</h1>
-    <button>Play</button>
+    <button class="start-game">Play</button>
 </template>
 ```
 ```js
