@@ -1,3 +1,5 @@
+'use strict';
+
 import DOMScene from './DOMScene';
 import CanvasScene from './CanvasScene';
 
@@ -32,20 +34,21 @@ class SceneManager {
     /**
      * Activate a registered scene.
      *
-     * @param {*} sceneId
+     * @param {*} sceneId Identifier of next scene
+     * @param {object} arguments Arguments to pass to next screen (e.g. scores)
      */
-    activateScene(sceneId) {
+    activateScene(sceneId, arguments = {}) {
         if (this.registeredScenes[sceneId]) {
-            this.activeScene = sceneId;
-
-            // this.domNode.childNodes.forEach(child => {
-            //     this.domNode.removeChild(child);
-            // });
-            while (this.domNode.firstChild) {
-                this.domNode.removeChild(this.domNode.firstChild);
+            if (this.activeSceneDomNode) {
+                arguments = this.registeredScenes[this.activeScene].onDeactivate(arguments);
+                this.domNode.removeChild(activeSceneDomNode);
             }
 
-            this.domNode.appendChild(this.registeredScenes[sceneId].getNode());
+            this.activeScene = sceneId;
+
+            this.activeSceneDomNode = this.registeredScenes[this.activeScene].getNode();
+            this.registeredScenes[this.activateScene].onActivate(arguments);
+            this.domNode.appendChild(this.activeSceneDomNode);
         }
         else {
             window.console.error(

@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * @author Christian Danscheid
  */
@@ -13,10 +15,22 @@ class DOMScene {
         this.template = template;
     }
 
-    onActivate() {
+    /**
+     * Called right before the scene's DOM node gets mounted.
+     *
+     * @param {object} arguments Arguments passed during activation.
+     */
+    onActivate(arguments) {
     }
 
-    onDeactivate() {
+    /**
+     * Called right before the scene's DOM node gets unmounted. Last chance
+     * to change arguments to pass to next scene. Must return arguments.
+     *
+     * @param {object} arguments Arguments passed by SceneManager.activateScene
+     */
+    onDeactivate(arguments) {
+        return arguments;
     }
 
     getNode() {
