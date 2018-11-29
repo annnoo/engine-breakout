@@ -1,6 +1,7 @@
 'use strict';
 
 import GameObject from './GameObject';
+import Area from '../Math/Area';
 
 /**
  * A rectangle. Obviously.
@@ -13,9 +14,10 @@ class Rectangle extends GameObject {
      * @param {number} posY
      * @param {number} width
      * @param {number} height
+     * @param {boolean} collidable
      */
-    constructor(posX, posY, width, height) {
-        super(posX, posY);
+    constructor(posX, posY, width, height, collidable = true) {
+        super(posX, posY, new Area(posX, posY, width, height), collidable);
 
         this.dimensions = {
             width: width,
@@ -23,7 +25,12 @@ class Rectangle extends GameObject {
         };
     }
 
+    update(dtime) {
+        super.update(dtime);
+    }
+
     draw(context) {
+        super.draw(context);
         renderRectangle(context, this);
     }
 }
