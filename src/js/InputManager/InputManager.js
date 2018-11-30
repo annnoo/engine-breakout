@@ -1,5 +1,5 @@
 'use strict';
-
+import Vec2 from '../Math/Vec2';
 class InputManager {
     /**
      *
@@ -9,6 +9,8 @@ class InputManager {
         this.keyMap = {};
         this.keyStates = {};
         this.allKeys = [];
+        this.mousePosition = new Vec2();
+        this.mouseMovement = new Vec2();
         this.enableEventHandlers();
     }
 
@@ -16,23 +18,38 @@ class InputManager {
      *
      */
     enableEventHandlers() {
-        document.addEventListener('keydown', this.keyPressedCallback.bind(this));
-        document.addEventListener('keyup', this.keyReleasedCallback.bind(this));
+        document.addEventListener('keydown', this._keyPressedCallback.bind(this));
+        document.addEventListener('keyup', this._keyReleasedCallback.bind(this));
+        document.addEventListener('mousemove', this._mouseMovedCallback.bind(this));
+
     }
 
     /**
      *
      */
     disableEventHandlers() {
-        document.removeEventListener('keydown', this.keyPressedCallback);
-        document.removeEventListener('keyup', this.keyReleasedCallback);
+        document.removeEventListener('keydown', this._keyPressedCallback);
+        document.removeEventListener('keyup', this._keyReleasedCallback);
+        document.removeEventListener('mousemove', this._mouseMovedCallback);
+
+    }
+
+    /**
+    *
+    * @param {MouseEvent} ev
+    */
+    _mouseMovedCallback(ev) {
+        this.mousePosition = new Vec2(ev.x,ev.y);
+        this.mouseMovement = new Vec2(ev.movementX,ev.movementY);
+
+        console.log(this.mouseMovement);
     }
 
     /**
      *
      * @param {KeyboardEvent} ev The KeyboardEvent
      */
-    keyPressedCallback(ev) {
+    _keyPressedCallback(ev) {
         this.keyStates[ev.keyCode] = true;
     }
 
@@ -40,7 +57,7 @@ class InputManager {
      *
      * @param {KeyboardEvent} ev The KeyboardEvent
      */
-    keyReleasedCallback(ev) {
+    _keyReleasedCallback(ev) {
         if(this.keyStates[ev.keyCode])
             this.keyStates[ev.keyCode] = false;
     }
@@ -87,7 +104,7 @@ class InputManager {
     }
 
     /**
-     * @returns {boolean}
+     * @returns {boolean} Returns true if any key was pressed, false otherwise
      */
     anyKeyPressed(){
         for (let index = 0; index < this.allKeys.length; index++) {

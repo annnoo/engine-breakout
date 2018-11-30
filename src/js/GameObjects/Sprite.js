@@ -4,7 +4,7 @@ import GameObject from './GameObject';
 import Area from '../Math/Area';
 
 /**
- * A rectangle. Obviously.
+ * A Sprite. Obviously.
  *
  * @author Anno
  */
