@@ -3,7 +3,7 @@
 import GameObject from './GameObject';
 
 /**
- * A rectangle. Obviously.
+ * A Sprite. Obviously.
  *
  * @author Anno
  */
