@@ -1,5 +1,5 @@
 'use strict';
-import {Vec2} from "../Math/Vec2";
+import Vec2 from '../Math/Vec2';
 class InputManager {
     /**
      *
@@ -41,6 +41,8 @@ class InputManager {
     _mouseMovedCallback(ev) {
         this.mousePosition = new Vec2(ev.x,ev.y);
         this.mouseMovement = new Vec2(ev.movementX,ev.movementY);
+
+        console.log(this.mouseMovement);
     }
 
     /**
