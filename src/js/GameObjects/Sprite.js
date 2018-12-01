@@ -1,9 +1,10 @@
 'use strict';
 
 import GameObject from './GameObject';
+import Area from '../Math/Area';
 
 /**
- * A rectangle. Obviously.
+ * A Sprite. Obviously.
  *
  * @author Anno
  */
@@ -12,9 +13,10 @@ class Sprite extends GameObject {
      * @param {number} posX
      * @param {number} posY
      * @param {Image} image
+     * @param {boolean} collidable
      */
-    constructor(posX, posY, image) {
-        super(posX, posY);
+    constructor(posX, posY, image, collidable = true) {
+        super(posX, posY, new Area(posX, posY, image.width, image.height), collidable);
 
         this.image = image;
 
@@ -24,7 +26,12 @@ class Sprite extends GameObject {
         };
     }
 
+    update(dtime) {
+        super.update(dtime);
+    }
+
     draw(context) {
+        super.draw(context);
         renderSprite(context, this);
     }
 }
