@@ -35,6 +35,7 @@ class AssetManager {
         }
         this.idCount = 0;
         this.cache = [];
+        this.indexNameMap = {};
         this.state = AM_WAITING;
         this.clear(false);
     }
@@ -59,16 +60,20 @@ class AssetManager {
      * You need to trigger the download by yourself.
      *
      * @param path Where to find the asset
+     * @param name Unique name for this asset
      * @param The type of the asset (image, audio)
      * @returns {number} An unique id of the asset
      */
-    addAsset(path, assetType) {
+    addAsset(path, assetType, name) {
         let id = this.idCount++;
         this.cache[id] = {
             'path': path,
             'assetType': assetType,
             'state': AM_WAITING
         };
+        if(name!==undefined&&name!==null){
+            this.indexNameMap[name] = id;
+        }
         return id;
     }
 
@@ -79,8 +84,8 @@ class AssetManager {
      * @param path Where to find the image asset
      * @returns {number} An unique id of the image asset
      */
-    addImage(path) {
-        return this.addAsset(path, 'image');
+    addImage(path, identifier) {
+        return this.addAsset(path, identifier, 'image');
     }
 
     /**
@@ -90,8 +95,8 @@ class AssetManager {
      * @param path Where to find the audio asset
      * @returns {number} An unique id of the audio asset
      */
-    addAudio(path) {
-        return this.addAsset(path, 'audio');
+    addAudio(path, identifier) {
+        return this.addAsset(path, identifier, 'audio');
     }
 
     /**
@@ -159,6 +164,20 @@ class AssetManager {
      */
     getAsset(id) {
         return this.cache[id].asset;
+    }
+
+
+    /**
+     * Returns the asset of the given name.
+     * Please check the state with getAssetState to ensure that it is available.
+     *
+     * @see getAssetState
+     *
+     * @param {*} name
+     * @returns {*} Asset
+     */
+    getAssetByName(name) {
+        return this.cache[this.indexNameMap[name]].asset;
     }
 
     /**
