@@ -11,7 +11,7 @@ class GameLoop {
     constructor(renderer) {
         /** @type {Array<RenderLayer>} */
         this.state = renderer.layers;
-        this.collisionDetector = new CollisionDetector(renderer);
+        this.collisionDetector = new CollisionDetector(renderer,3,3);
     }
 
     /**
@@ -42,10 +42,13 @@ class GameLoop {
      * @param {number} dtime time since last call [s]
      */
     _tick(dtime) {
+
+        this.collisionDetector.doCollisions(dtime);
+
         this.state.forEach((layer) => {
             layer.state.forEach((gameObject) => {
                 gameObject.update(dtime);
-                this.collisionDetector.handleCollisions(dtime, gameObject, 1);
+                //this.collisionDetector.handleCollisions(dtime, gameObject, 1);
             });
             layer.setClearFlag(true);
         });
