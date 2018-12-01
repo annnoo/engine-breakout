@@ -1,7 +1,8 @@
 'use strict';
 
 import LayeredRenderer from '../../Renderer/LayeredRenderer';
-
+import GameObject from '../../GameObjects/GameObject';
+import Area from '../../Math/Area';
 /**
  * Handles collisions of gameobjects
  *
@@ -9,14 +10,64 @@ import LayeredRenderer from '../../Renderer/LayeredRenderer';
  */
 class CollisionDetector {
 
+
+
     /**
      * Creates a new CollisionDetector that works with every GameObject saved in the
      * layeredRenderer.
      *
      * @param {LayeredRenderer} layeredRenderer
      */
-    constructor(layeredRenderer) {
+    constructor(layeredRenderer,gridWidth, gridHeight) {
         this.layers = layeredRenderer.layers;
+
+        this.canvasDimensions = {width: layeredRenderer.canvas.display.width, height: layeredRenderer.canvas.display.height};
+
+        this.ratio.x = this.canvasDimensions.width / gridWidth;
+        this.ratio.y = this.canvasDimensions.height / gridHeight;
+        this.gridHeight = gridHeight;
+        this.gridWidth = gridWidth;
+        this.spartialGrid = createGrid(gridWidth,gridHeight);
+
+    }
+
+    populateGrid(){
+        this.layers.forEach((layer) => {
+            /** @property {GameObject} */
+
+            let elem = new GameObject();
+            layer.state.forEach((element) => {
+                if((element instanceof GameObject)){
+                    let area = elem.area;
+                    if(area.getRightX() < 0 || area.getLeftX() > this.canvasDimensions.width || area.getTopY() > this.canvasDimensions.height || area.getBottomY() < 0)
+                    {
+                        return;
+                    }
+                    else {
+                        let minCellX = Math.floor(area.getLeftX /this.ratio.x);
+                        let maxCellX = Math.floor(area.getRightX / this.ratio.x);
+
+                        let minCellY = Math.floor(area.getTopY /this.ratio.y);
+                        let maxCellY = Math.floor(area.getBottomY / this.ratio.y);
+
+                        for(let i = minCellX; i<= maxCellX; i++){
+
+                            if(!this.spartialGrid[i]){
+                                this.spartialGrid[i] = new Array(this.gridHeight);
+                            }
+                            let row = this.spartialGrid[i];
+                            for(let j = minCellY; j <= maxCellY;j++){
+                                if(!row[j]){
+                                    row[j] = [];
+
+                                }
+                                row[j].push(element);
+                            }
+                        }
+                    }
+                }
+            })
+        })
     }
 
     /**
@@ -59,7 +110,13 @@ class CollisionDetector {
     }
 
 }
-
+const createGrid = (gridWidth,gridHeight) => {
+    let arr = new Array(gridWidth);
+    for(let i = 0; i < gridWidth; i++){
+        arr[i] = new Array(gridHeight)
+    }
+    return arr;
+}
 const updateDirections = (tGameObject, oGameObject, dtime) => {
     //TODO: fix calculation!
 
