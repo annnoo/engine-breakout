@@ -1,28 +1,63 @@
-'use strict'
+'use strict';
 
 import AssetManager from '../AssetManager/AssetManager';
 import InputManager from '../InputManager/InputManager';
-import LayeredRenderer from '../Renderer/LayeredRenderer';
-import GameLoop from '../GameLoop/GameLoop';
+import SceneManager from '../Scenes/SceneManager';
+import AudioManager from '../Audio/AudioManager';
+import StorageManager from '../StorageManager/StorageManager';
 
 class AbstractApp {
 
     /**
      *
-     * @param {HTMLCanvasElement} renderTarget Canvas to render to
-     * @param width Final width of the canvas
-     * @param height Final height of the canvas
-     * @param node
+     * @param {HTMLElement} domNode DOM node to bind to
      */
-    constructor(width, height, node) {
+    constructor(domNode) {
         this.assetManager = new AssetManager();
         this.inputManager = new InputManager();
-        this.sceneManager;
+        this.audioManager = new AudioManager();
+        this.storageManager = new StorageManager();
+        this.sceneManager = new SceneManager(domNode);
     }
 
-    _start(canvasScene) {
-        this.gameLoop = new GameLoop(canvasScene.renderer);
-        this.gameLoop.start(60);
+    /**
+     *
+     * @returns {AssetManager}
+     */
+    getAssetManager() {
+        return this.assetManager;
+    }
+
+    /**
+     *
+     * @returns {InputManager}
+     */
+    getInputManager() {
+        return this.inputManager;
+    }
+
+    /**
+     *
+     * @returns {AudioManager}
+     */
+    getAudioManager() {
+        return this.audioManager;
+    }
+
+    /**
+     *
+     * @returns {StorageManager}
+     */
+    getStorageManager() {
+        return this.storageManager;
+    }
+
+    /**
+     *
+     * @returns {SceneManager}
+     */
+    getSceneManager() {
+        return this.sceneManager;
     }
 
 }
