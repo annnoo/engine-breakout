@@ -40,7 +40,7 @@ class InputManager {
     */
     _mouseMovedCallback(ev) {
         this.mousePosition = new Vec2(ev.x,ev.y);
-        this.mouseMovement = new Vec2(ev.movementX,ev.movementY);
+        this.mouseMovement.set(ev.movementX,ev.movementY);
 
 
     }
