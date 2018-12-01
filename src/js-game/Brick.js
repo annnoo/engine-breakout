@@ -3,7 +3,7 @@ import Area from '../js/Math/Area';
 
 class Brick extends Sprite {
 
-    constructor(posX, posY, image, collidable = true, state) {
+    constructor(posX, posY, image, collidable = true) {
         super(posX, posY, new Area(posX, posY, image.width, image.height), collidable);
 
         this.image = image;
@@ -12,7 +12,7 @@ class Brick extends Sprite {
             width: this.image.width,
             height: this.image.height
         };
-        this.state = state;
+
         this.lifeCounter = 1;
     }
 
