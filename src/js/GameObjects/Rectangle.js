@@ -26,7 +26,7 @@ class Rectangle extends GameObject {
     }
 
     update(dtime) {
-        super.update(dtime);
+        return super.update(dtime);
     }
 
     draw(context) {

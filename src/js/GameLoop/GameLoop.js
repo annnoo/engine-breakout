@@ -1,17 +1,17 @@
 'use strict';
 
-import LayeredRenderer from '../Renderer/LayeredRenderer';
-import RenderLayer from '../Renderer/RenderLayer';
 import CollisionDetector from '../Physic/CollisionDetection/CollisionDetector';
 
 class GameLoop {
+
     /**
-     * @param {LayeredRenderer} renderer Renderer to share state with
+     * @param {CanvasScene} scene Scene that has created this instance
      */
-    constructor(renderer) {
+    constructor(scene) {
         /** @type {Array<RenderLayer>} */
-        this.state = renderer.layers;
-        this.collisionDetector = new CollisionDetector(renderer);
+        this.state = scene.renderer.layers;
+        this.scene = scene;
+        this.collisionDetector = new CollisionDetector(scene.renderer);
     }
 
     /**
@@ -43,12 +43,21 @@ class GameLoop {
      */
     _tick(dtime) {
         this.state.forEach((layer) => {
+            let clear = false;
             layer.state.forEach((gameObject) => {
-                gameObject.update(dtime);
+                if (gameObject.update(dtime) && !clear) {
+                    //if gameobject moves
+                    clear = true;
+                }
                 this.collisionDetector.handleCollisions(dtime, gameObject, 1);
             });
-            layer.setClearFlag(true);
+            if (clear && !layer.clearFlag) {
+                //no need to update the flag with false because the renderer
+                //resets(to false) the flag after each clear
+                layer.setClearFlag(true);
+            }
         });
+        this.scene.onUpdate(dtime);
     }
 }
 

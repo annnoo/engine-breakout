@@ -5,12 +5,12 @@ import Area from '../Math/Area';
 
 class Text extends GameObject {
     constructor(posX, posY, text) {
-        super(posX, posY, new Area(0, 0, 0, 0), false);
+        super(posX, posY, new Area(posX, posY-15, 15, 15), false); //TODO use: new Area(0, 0, 0, 0)
         this.text = text;
     }
 
     update(dtime) {
-        super.update(dtime);
+        return super.update(dtime);
     }
 
     draw(context) {

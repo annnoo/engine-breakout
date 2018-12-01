@@ -80,14 +80,16 @@ class SceneManager {
         }
     }
 
-    /**
-     * Stuff to do, when GameLoop ticks.
-     *
-     * @param {number} dtime Time since last tick
-     */
-    onUpdate(dtime) {
-        this.registeredScenes[this.activeScene].onUpdate(dtime);
-    }
+    // onUpdate is just relevant for the CanvasScene.
+    // The CanvasScene creates the GameLoop ==> only CanvasScene needs this method
+    // /**
+    //  * Stuff to do, when GameLoop ticks.
+    //  *
+    //  * @param {number} dtime Time since last tick
+    //  */
+    // onUpdate(dtime) {
+    //     this.registeredScenes[this.activeScene].onUpdate(dtime);
+    // }
 }
 
 export default SceneManager;

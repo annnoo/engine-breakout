@@ -4,6 +4,7 @@ import DOMScene from './DOMScene';
 import CANVAS_SCENE_TEMPLATE from './canvas.template.html';
 import LayeredRenderer from '../Renderer/LayeredRenderer';
 import GameLoop from '../GameLoop/GameLoop';
+import AbstractApp from '../App/AbstractApp';
 
 /**
  * A Game scene based on a canvas with multiple layers and
@@ -15,7 +16,7 @@ class CanvasScene extends DOMScene {
     /**
      * @param {Array<*>} layerIDs IDs of layers to generate
      * @param {*} keybindings todo: connect to InputManager
-     * @param {*} app todo: connect to app
+     * @param {AbstractApp} app
      */
     constructor(layerIDs = [], keybindings, app) {
         super(CANVAS_SCENE_TEMPLATE, keybindings, app);
@@ -33,7 +34,7 @@ class CanvasScene extends DOMScene {
 
         const canvas = node.querySelector('canvas');
         this.renderer = new LayeredRenderer(canvas, this.layerIDs);
-        this.gameloop = new GameLoop(this.renderer);
+        this.gameloop = new GameLoop(this);
 
         return node;
     }
@@ -55,16 +56,11 @@ class CanvasScene extends DOMScene {
     }
 
     /**
-     * @override
+     * Will be automatically called each tick of GameLoop.
+     *
+     * @param {number} dtime time since last call [s]
      */
     onUpdate(dtime) {
-        super.onUpdate(dtime);
-
-        this.state.forEach(layer => {
-            layer.forEach(gameObject => {
-                gameObject.onUpdate(dtime);
-            });
-        });
     }
 }
 
