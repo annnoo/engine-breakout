@@ -3,7 +3,7 @@
 import DOMScene from './DOMScene';
 import CANVAS_SCENE_TEMPLATE from './canvas.template.html';
 import LayeredRenderer from '../Renderer/LayeredRenderer';
-//TODO: import GameLoop
+import GameLoop from '../GameLoop/GameLoop';
 
 /**
  * A Game scene based on a canvas with multiple layers and
@@ -17,7 +17,7 @@ class CanvasScene extends DOMScene {
      * @param {*} keybindings todo: connect to InputManager
      * @param {*} app todo: connect to app
      */
-    constructor(layerIDs, keybindings, app) {
+    constructor(layerIDs = [], keybindings, app) {
         super(CANVAS_SCENE_TEMPLATE, keybindings, app);
 
         this.layerIDs = layerIDs;
@@ -33,7 +33,7 @@ class CanvasScene extends DOMScene {
 
         const canvas = node.querySelector('canvas');
         this.renderer = new LayeredRenderer(canvas, this.layerIDs);
-        this.gameloop = new GameLoop(this.renderer.layers);
+        this.gameloop = new GameLoop(this.renderer);
 
         return node;
     }
