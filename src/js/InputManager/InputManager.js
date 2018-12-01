@@ -42,7 +42,7 @@ class InputManager {
         this.mousePosition = new Vec2(ev.x,ev.y);
         this.mouseMovement = new Vec2(ev.movementX,ev.movementY);
 
-        console.log(this.mouseMovement);
+
     }
 
     /**
