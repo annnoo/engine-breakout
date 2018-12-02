@@ -1,6 +1,6 @@
 'use strict';
 
-import CollisionDetector from '../Physic/CollisionDetection/CollisionDetector';
+import CollisionDetector from '../CollisionDetection/CollisionDetector';
 
 class GameLoop {
 

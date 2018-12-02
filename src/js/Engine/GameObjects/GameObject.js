@@ -1,6 +1,6 @@
 'use strict';
 
-import Physical from '../Physic/Physical';
+import Physical from '../CollisionDetection/Physical';
 import Vec2 from '../Math/Vec2';
 
 /**
