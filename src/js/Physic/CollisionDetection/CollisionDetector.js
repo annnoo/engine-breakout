@@ -125,7 +125,7 @@ class CollisionDetector {
                     
                     for (let j =i+1; j< col.length; j++) {
                         let oGameObject = col[j];
-
+                    
                         if(col[i].isCollidable() &&  col[j].isCollidable()){
                             if(col[i].area.collidesWith(col[j].area,0)){
                                 let ignorePhysics = false;
@@ -146,7 +146,6 @@ class CollisionDetector {
             });
 
         });
-
     }
 
 }

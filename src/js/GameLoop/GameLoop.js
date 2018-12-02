@@ -7,7 +7,7 @@ class GameLoop {
     /**
      * @param {CanvasScene} scene Scene that has created this instance
      */
-    constructor(scene,gridWidth = 12, gridHeight = 8) {
+    constructor(scene,gridWidth = 5, gridHeight = 5) {
         /** @type {Array<RenderLayer>} */
         this.state = scene.renderer.layers;
         this.scene = scene;
@@ -52,7 +52,6 @@ class GameLoop {
                     //if gameobject moves
                     clear = true;
                 }
-                this.collisionDetector.handleCollisions(dtime, gameObject, 1);
             });
             if (clear && !layer.clearFlag) {
                 //no need to update the flag with false because the renderer

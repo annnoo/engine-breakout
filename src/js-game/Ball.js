@@ -70,7 +70,7 @@ class Ball extends Sprite {
             this.direction.x = -((this.position.x + (this.dimensions.width/2)) - (other.position.x+ (other.dimensions.width/2))) / other.dimensions.width;
             this.currentlyColliding = true;
 
-            setTimeout(() => this.currentlyColliding = false, 100);
+            setTimeout(() => this.currentlyColliding = false, 10);
         }
         return false;
 
