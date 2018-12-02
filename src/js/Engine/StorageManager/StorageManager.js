@@ -1,3 +1,5 @@
+'use strict';
+
 const IDENTIFIER = '791e711e86c27409b573e9d8ecc91dda';
 const persistentStorage = window.localStorage;
 const fluentStorage = window.sessionStorage;

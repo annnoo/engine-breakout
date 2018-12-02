@@ -1,3 +1,5 @@
+'use strict';
+
 const AM_WAITING = 0x00;
 const AM_DOWNLOADING = 0x01;
 const AM_SUCCESS = 0x02;
