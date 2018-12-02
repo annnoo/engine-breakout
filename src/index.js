@@ -44,7 +44,7 @@ app.getAssetManager().downloadAll(() => {
             let htmlCanvas = this.renderer.canvas.display;
             /** @type {AbstractApp} */
             
-            let ball = new Ball(htmlCanvas.width/2,htmlCanvas.height/2);
+            let ball = new Ball(htmlCanvas.width/2,htmlCanvas.height-60);
             ball.setSpeed(30);
             ball.setDirection(new Vec2(0,-1));
             
@@ -55,10 +55,10 @@ app.getAssetManager().downloadAll(() => {
             this.renderer.enableDebug(true);    
 
          
-            let im = new InputManager();
-            let pad = new Paddle(htmlCanvas.width / 2,htmlCanvas.height -20,am.getAssetByName('pad'),true,im);
+            let im = app.getInputManager();
+            let pad = new Paddle(htmlCanvas.width / 2,htmlCanvas.height -13,am.getAssetByName('pad'),true,im);
             let bricks = [];
-            let rows = 10;
+            let rows = 18;
             for (let i = 1; i < 16;i++) {
                 for(let j = 1; j < rows; j++){
                     bricks.push(new Brick(15*i,9*j,am.getAssetByName('brick')));
