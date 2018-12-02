@@ -6,101 +6,127 @@ import AbstractApp from './js/App/AbstractApp';
 import Rectangle from './js/GameObjects/Rectangle';
 import Text from './js/GameObjects/Text';
 import Vec2 from './js/Math/Vec2';
+import InputManager from './js/InputManager/InputManager';
+import Ball from './js-game/Ball';
+import Paddle from './js-game/pad';
+import Brick from './js-game/Brick';
+import BallImg from './img/cropped_filter/ball2.png';
+import BrickImg from './img/cropped_filter/brick1_cropped.png';
+import PadImage from './img/cropped_filter/paddle_m2_cropped_long.png';
+
 
 let domNode = document.getElementsByTagName('main')[0];
 
 let app = new AbstractApp(domNode);
 
-app.getSceneManager().registerScene(0, new class extends CanvasScene {
+let am = app.getAssetManager();
 
-    constructor() {
-        super([0], null, app);
-        this.layerId = 0;
-        this.counter = 0;
-    }
+app.getAssetManager().addAsset(BallImg,'image','ball');
+app.getAssetManager().addAsset(PadImage,'image','pad');
+app.getAssetManager().addAsset(BrickImg,'image','brick');
+app.getAssetManager().downloadAll(() => {
 
-    onAfterMount() {
-        super.onAfterMount();
+    app.getSceneManager().registerScene(0, new class extends CanvasScene {
 
-        let htmlCanvas = this.renderer.canvas.display;
-
-        let borderLeft = new Rectangle(0, 15, 10, htmlCanvas.height - 15 - 15);
-        let borderTop = new Rectangle(15, 0, htmlCanvas.width - 15 - 15, 10);
-        let borderRight = new Rectangle(htmlCanvas.width - 10, 15, 10, htmlCanvas.height - 15 - 15);
-        let borderBot = new Rectangle(15, htmlCanvas.height - 10, htmlCanvas.width - 15 - 15, 10);
-
-        this.text = new Text(50, 50, '☯');
-
-        borderLeft.setDirection(new Vec2(0, 1));
-        borderTop.setDirection(new Vec2(1, 0));
-        borderRight.setDirection(new Vec2(0, -1));
-        borderBot.setDirection(new Vec2(-1, 0));
-        this.text.setDirection(new Vec2(1, 1));
-
-        this.text.setSpeed(40);
-
-        this.text.collidable = true;
-
-        this.text.name = "text";
-        borderLeft.name = "borderLeft";
-        borderTop.name = "borderTop";
-        borderRight.name = "borderRight";
-        borderBot.name = "borderBot";
-
-        let layer = this.renderer.getLayer(this.layerId);
-
-        layer.setState([
-            ...layer.state,
-            this.text,
-            borderLeft,
-            borderTop,
-            borderRight,
-            borderBot
-        ]);
-
-    }
-
-    onUpdate(dtime) {
-        super.onUpdate(dtime);
-        if(this.counter%4000===0){
+        constructor() {
+            super([0], null, app);
+            this.layerId = 0;
             this.counter = 0;
-            window.console.log("reset counter");
+            
         }
-        this.text.setSpeed(this.counter+=1);
-    }
+    
+        onAfterMount() {
+            super.onAfterMount();
+    
+    
+            this.renderer.canvas.display.setAttribute('width', 360);
+            this.renderer.canvas.display.setAttribute('height', 240);
+            let htmlCanvas = this.renderer.canvas.display;
+            /** @type {AbstractApp} */
+            
+            let ball = new Ball(htmlCanvas.width/2,htmlCanvas.height/2);
+            ball.setSpeed(30);
+            ball.setDirection(new Vec2(0,-1));
+            
+    
+            
+    
+            let layer = this.renderer.getLayer(this.layerId);
+            this.renderer.enableDebug(true);    
+
+         
+            let im = new InputManager();
+            let pad = new Paddle(htmlCanvas.width / 2,htmlCanvas.height -20,am.getAssetByName('pad'),true,im);
+            let bricks = [];
+            let rows = 10;
+            for (let i = 1; i < 16;i++) {
+                for(let j = 1; j < rows; j++){
+                    bricks.push(new Brick(15*i,9*j,am.getAssetByName('brick')));
+        
+                }
+        
+            }
+        
+        
+            ball.setSpeed(100);
+            ball.setDirection(new Vec2(0,-1));
+            ball.name = 'Ball';
+        
+            layer.setState([
+                ...layer.state,
+                ball, pad, ...bricks
+             
+            ]);
+
+
+            
+    
+        }
+    
+        onUpdate(dtime) {
+            super.onUpdate(dtime);
+            this.renderer.getLayer(0).setClearFlag(true);
+            if(this.counter%4000===0){
+                this.counter = 0;
+                window.console.log('reset counter');
+            }
+        }
+    
+    });
+    
+    app.getSceneManager().registerScene(1, new class extends DOMScene {
+        constructor() {
+            const template = document.createElement('template');
+            template.content.appendChild(document.createElement('hr'));
+    
+            /**
+             * @type {HTMLButtonElement}
+             */
+            let btn = document.createElement('button');
+            btn.type = 'button';
+            btn.textContent = 'Click Me :)';
+            btn.id = 'myBtn';
+    
+            template.content.appendChild(btn);
+    
+            super(template, null, null);
+        }
+    
+        onAfterMount() {
+            super.onAfterMount();
+    
+            document.getElementById('myBtn').addEventListener('click', () => {
+                window.console.log('clicked');
+                app.getSceneManager().activateScene(0);
+            });
+        }
+    });
+    
+    
+    
+    
+    app.getSceneManager().activateScene(0);
+    //====================
+    
 
 });
-
-app.getSceneManager().registerScene(1, new class extends DOMScene {
-    constructor() {
-        const template = document.createElement('template');
-        template.content.appendChild(document.createElement('hr'));
-
-        /**
-         * @type {HTMLButtonElement}
-         */
-        let btn = document.createElement('button');
-        btn.type = 'button';
-        btn.textContent = 'Click Me :)';
-        btn.id = 'myBtn';
-
-        template.content.appendChild(btn);
-
-        super(template, null, null);
-    }
-
-    onAfterMount() {
-        super.onAfterMount();
-
-        document.getElementById('myBtn').addEventListener("click", () => {
-            window.console.log("clicked");
-            app.getSceneManager().activateScene(0);
-        });
-    }
-});
-
-app.getSceneManager().activateScene(1);
-
-
-//====================
-

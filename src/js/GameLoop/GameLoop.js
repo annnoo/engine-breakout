@@ -7,11 +7,11 @@ class GameLoop {
     /**
      * @param {CanvasScene} scene Scene that has created this instance
      */
-    constructor(scene) {
+    constructor(scene,gridWidth = 12, gridHeight = 8) {
         /** @type {Array<RenderLayer>} */
         this.state = scene.renderer.layers;
         this.scene = scene;
-        this.collisionDetector = new CollisionDetector(scene.renderer);
+        this.collisionDetector = new CollisionDetector(scene.renderer,gridWidth,gridHeight);
     }
 
     /**

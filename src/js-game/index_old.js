@@ -15,7 +15,6 @@ import Brick from './js-game/Brick';
 import Ball from './js-game/Ball';
 
 
-
 let am = new AssetManager();
 let htmlCanvas = document.getElementById('canvas');
 
@@ -58,11 +57,9 @@ am.downloadAll(() => {
 
 
 
-    let im = new InputManager();
 
 
     layer.setClearFlag(true);
-    let pad = new Paddle(htmlCanvas.width / 2,htmlCanvas.height -20,am.getAssetByName('pad'),true,im);
     console.log(am.getAsset(1));
 
 
@@ -74,6 +71,8 @@ am.downloadAll(() => {
     let borderRight = new Rectangle(htmlCanvas.width-10, 15, 10, htmlCanvas.height-15-15);
     let borderBot = new Rectangle(15, htmlCanvas.height-10, htmlCanvas.width-15-15, 10);
 
+    let im = new InputManager();
+    let pad = new Paddle(htmlCanvas.width / 2,htmlCanvas.height -20,am.getAssetByName('pad'),true,im);
     let bricks = []
     let rows = 10;
     for (let i = 1; i < 16;i++) {
@@ -83,6 +82,7 @@ am.downloadAll(() => {
         }
 
     }
+
     let ball = new Ball(htmlCanvas.width/2,htmlCanvas.height/2);
 
     ball.setSpeed(100);
@@ -104,4 +104,4 @@ am.downloadAll(() => {
 
 
 
-});
+}); 

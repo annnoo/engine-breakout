@@ -43,7 +43,6 @@ class Paddle extends Sprite {
     onCollideWith(other){
         if(other instanceof Brick){
             other.lifeCounter--;
-            window.console.log("test");
             if(other.lifeCounter < 0){
                 other.disable();
             }
