@@ -1,9 +1,40 @@
-# breakout
+# Breakout
 
-A breakout browser game written in javascript
+Here you find the retro classic Arkanoid (BreakOut) as a modern web application.
 
-## Development
-### Architecture
+It is written in plain vanilla HTML5, CSS and JavaScript. In the following chapters the remaining 
+technologies that were used are explained.
+
+This project was initiated with regard to the lecture "Projects of business informatics" 
+at the [FHDW](https://www.fhdw.de/).
+
+# User manual
+
+## Getting started
+
+Browse to the [release page](https://gitlab.com/seeya-js/breakout/releases), click at the latest version
+and download the source code.
+
+To run the game you need a webserver like [Apache](http://httpd.apache.org/docs/2.4/install.html) 
+or [nginx](https://www.nginx.com/resources/wiki/start/topics/tutorials/install/).
+
+If you only provide the game locally, we recommend [XAMPP](https://www.apachefriends.org/download.html), which
+contains other useful products besides an apache webserver.
+
+Move the downloaded file to the public directory of your webserver (e.g. */htdocs* for Apache) and
+extract **here**.
+
+After that, start your webserver (if not already done) and type the following url into your browser.
+```
+http://localhost:<port>/breakout-<version>
+```
+The default port for most webservers is 80. You can determine the version by the name of the extracted file.
+
+*Please notice the known bugs and the supported browsers!*
+
+# Developer manual
+
+## Architecture
 #### SceneManager
 Use a `SceneManager` to manage scenes. The SceneManager will take of updating GameObjects in the currently active scene, but its `onUpdate(dtime)` method must be called from within the Game Loop.
 
