@@ -57,6 +57,10 @@ module.exports = {
                         }
                     }
                 ]
+            },
+            {
+                test: /\.html?$/,
+                loader: 'dom-element-loader'
             }
         ]
     }

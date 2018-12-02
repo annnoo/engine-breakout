@@ -29,12 +29,12 @@ class GameObject extends Physical {
 
     update(dtime) {
         super.update(dtime);
-        this._update(dtime);
+        return this._update(dtime);
     }
 
     rollback(dtime) {
         super.rollback(dtime);
-        this._update(dtime, true);
+        return this._update(dtime, true);
     }
 
     /**
@@ -45,7 +45,7 @@ class GameObject extends Physical {
      * @private
      */
     _update(dtime, invert = false) {
-        if (this.speed === 0) return;
+        if (this.speed === 0) return false;
         let len = this.direction.length();
         let multiplier = this.speed / len;
         let velocity = this.direction.clone().multiply(multiplier * dtime);
@@ -55,6 +55,7 @@ class GameObject extends Physical {
         }
         this.position.addVec(velocity);
         this.area.move(velocity.x, velocity.y);
+        return velocity.length()!=0;
     }
 
     /**
