@@ -53,14 +53,17 @@ class Ball extends Sprite {
         if(other instanceof Brick && !this.currentlyColliding){
 
             other.lifeCounter--;
-            if(other.lifeCounter <= 0){
-                other.disable();
-            }
+            
+            
+            
             this.currentlyColliding = true;
             this.direction.y = 1;
             this.direction.x *=-1;
             setTimeout(() => this.currentlyColliding = false, 20);
-
+            if(other.lifeCounter <= 0){
+                other.disable();
+            }
+            other.updateImage();
         }
         else if(other instanceof Paddle && !this.currentlyColliding){
 
