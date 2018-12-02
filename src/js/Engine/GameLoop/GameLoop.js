@@ -7,11 +7,11 @@ class GameLoop {
     /**
      * @param {CanvasScene} scene Scene that has created this instance
      */
-    constructor(scene) {
+    constructor(scene,gridWidth = 5, gridHeight = 5) {
         /** @type {Array<RenderLayer>} */
         this.state = scene.renderer.layers;
         this.scene = scene;
-        this.collisionDetector = new CollisionDetector(scene.renderer);
+        this.collisionDetector = new CollisionDetector(scene.renderer,gridWidth,gridHeight);
     }
 
     /**
@@ -43,6 +43,9 @@ class GameLoop {
      */
     _tick(dtime) {
         this.collisionDetector.handleCollisions(dtime,0);
+
+        this.collisionDetector.doCollisions(dtime);
+
         this.state.forEach((layer) => {
             let clear = false;
             layer.state.forEach((gameObject) => {

@@ -21,7 +21,9 @@ class GameObject extends Physical {
         this.position = new Vec2(posX, posY);
         this.direction = new Vec2(0, 0);
         this.speed = 0; //pixel per second
+        /** @property {Area} */
         this.area = area;
+
         this.collidable = collidable;
     }
 

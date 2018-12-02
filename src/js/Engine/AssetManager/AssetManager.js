@@ -5,6 +5,10 @@ const AM_DOWNLOADING = 0x01;
 const AM_SUCCESS = 0x02;
 const AM_FAILED = 0x03;
 
+
+/**
+ * @type {AssetManager} SELF
+ */
 let SELF;
 
 const createObjectFromType = (type) => {
@@ -31,6 +35,7 @@ class AssetManager {
 
     constructor() {
         if (SELF !== undefined) {
+
             window.console.error('The class AssetManager is a singleton. You can not create more than one object');
         } else {
             SELF = this;
@@ -197,4 +202,4 @@ class AssetManager {
 
 export default AssetManager;
 
-export {AM_FAILED, AM_SUCCESS, AM_DOWNLOADING, AM_WAITING};
+export {AM_FAILED, AM_SUCCESS, AM_DOWNLOADING, AM_WAITING, SELF};
