@@ -42,6 +42,7 @@ class GameLoop {
      * @param {number} dtime time since last call [s]
      */
     _tick(dtime) {
+        this.collisionDetector.handleCollisions(dtime,0);
         this.state.forEach((layer) => {
             let clear = false;
             layer.state.forEach((gameObject) => {
@@ -49,7 +50,6 @@ class GameLoop {
                     //if gameobject moves
                     clear = true;
                 }
-                this.collisionDetector.handleCollisions(dtime, gameObject, 1);
             });
             if (clear && !layer.clearFlag) {
                 //no need to update the flag with false because the renderer
