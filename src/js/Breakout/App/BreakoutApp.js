@@ -12,6 +12,8 @@ import BrickImg4 from '../../../img/cropped_filter/brick4_cropped.png';
 import BrickImg5 from '../../../img/cropped_filter/brick4_str-e1_cropped.png';
 import TestInGameScene from '../Scenes/TestInGameScene';
 
+import MainMenuScene from '../Scenes/MainMenuScene/MainMenuScene';
+
 class BreakoutApp extends AbstractApp {
 
     constructor() {
@@ -21,6 +23,8 @@ class BreakoutApp extends AbstractApp {
         this.getSceneManager().registerScene(SceneNames.PREGAME, new PreGameScene(this));
         this.getSceneManager().registerScene(SceneNames.TESTGAME, new TestInGameScene(this));
         this.getSceneManager().registerScene(SceneNames.INGAME, new InGameScene(this));
+
+        this.getSceneManager().registerScene(SceneNames.MAIN_MENU, new MainMenuScene(this));
 
     }
 
@@ -40,7 +44,7 @@ class BreakoutApp extends AbstractApp {
 
         this.getAssetManager().downloadAll.bind(this)(() => {
             //TODO: activate your first visible scene
-            this.getSceneManager().activateScene(SceneNames.PREGAME);
+            this.getSceneManager().activateScene(SceneNames.MAIN_MENU);
         });
     }
 
@@ -48,6 +52,8 @@ class BreakoutApp extends AbstractApp {
 
 //TODO: define some scenes
 const SceneNames = {
+    MAIN_MENU: 'MAIN_MENU',
+    LEVEL_SELECT: 'LEVEL_SELECTOR',
     PREGAME: 'pregame',
     INGAME: 'ingame',
     TESTGAME: 'testgame'
