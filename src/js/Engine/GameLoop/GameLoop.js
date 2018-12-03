@@ -42,7 +42,6 @@ class GameLoop {
      * @param {number} dtime time since last call [s]
      */
     _tick(dtime) {
-        this.collisionDetector.handleCollisions(dtime,0);
 
         this.collisionDetector.doCollisions(dtime);
 

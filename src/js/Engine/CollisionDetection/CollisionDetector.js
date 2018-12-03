@@ -32,7 +32,7 @@ class CollisionDetector {
     }
 
     populateGrid() {
-        this.spartialGrid = createGrid(this.gridWidth, this.gridHeight);
+        this.spartialGrid = [];
         this.layers.forEach((layer) => {
 
             /** @property {GameObject} */
@@ -77,7 +77,7 @@ class CollisionDetector {
 
     /**
      * Called every game loop tick
-     *
+     * @deprecated
      * @param {number} dtime time since last call [s]
      * @param {number} depth Deepness of the recursive calls.
      *      -1 = everything, 0 = the current area, 1 = includes subareas, 2 = includes the subareas of subareas, ...
@@ -114,19 +114,22 @@ class CollisionDetector {
         });
     }
 
-    doCollisions(dtime) {
+    doCollisions(dtime,depth = 0) {
         this.populateGrid();
         this.spartialGrid.forEach((row) => {
 
             row.forEach((col) => {
                 for (let i = 0; i < col.length; i++) {
                     let tGameObject = col[i];
+                    if(!tGameObject.isCollidable()){
+                        continue;
+                    }
 
                     for (let j = i + 1; j < col.length; j++) {
                         let oGameObject = col[j];
 
-                        if (col[i].isCollidable() && col[j].isCollidable()) {
-                            if (col[i].area.collidesWith(col[j].area, 0)) {
+                        if (oGameObject.isCollidable()) {
+                            if (col[i].area.collidesWith(col[j].area, depth)) {
                                 let ignorePhysics = false;
                                 if (tGameObject.isMovable()) {
                                     ignorePhysics = tGameObject.onCollideWith(oGameObject);
