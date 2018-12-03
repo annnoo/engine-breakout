@@ -1,7 +1,6 @@
-
-import Sprite from '../js/GameObjects/Sprite';
-import Area from '../js/Math/Area';
-import InputManager from '../js/InputManager/InputManager';
+import Sprite from '../../Engine/GameObjects/Sprite';
+import Area from '../../Engine/Math/Area';
+import InputManager from '../../Engine/InputManager/InputManager';
 import Brick from './Brick';
 
 class Paddle extends Sprite {
@@ -29,21 +28,20 @@ class Paddle extends Sprite {
     }
 
 
-
-    update(){
-
+    update() {
         super.update();
-        this.position.add(this.input.mouseMovement.x,0);
-        this.area.move(this.input.mouseMovement.x,0);
-        this.input.mouseMovement.set(0,0);
 
+        this.position.add(this.input.mouseMovement.x, 0);
+        this.area.move(this.input.mouseMovement.x, 0);
+        this.input.mouseMovement.set(0, 0);
 
+        return true;
     }
 
-    onCollideWith(other){
-        if(other instanceof Brick){
+    onCollideWith(other) {
+        if (other instanceof Brick) {
             other.lifeCounter--;
-            if(other.lifeCounter < 0){
+            if (other.lifeCounter < 0) {
                 other.disable();
             }
         }

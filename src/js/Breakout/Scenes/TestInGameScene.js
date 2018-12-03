@@ -4,11 +4,8 @@ import CanvasScene from '../../Engine/Scenes/CanvasScene';
 import Rectangle from '../../Engine/GameObjects/Rectangle';
 import Text from '../../Engine/GameObjects/Text';
 import Vec2 from '../../Engine/Math/Vec2';
-import Ball from '../GameObjects/Ball';
-import Paddle from '../GameObjects/Paddle';
-import Brick from '../GameObjects/Brick';
 
-class InGameScene extends CanvasScene {
+class TestInGameScene extends CanvasScene {
 
     /**
      *
@@ -28,41 +25,49 @@ class InGameScene extends CanvasScene {
 
         let htmlCanvas = this.renderer.canvas.display;
 
-        let ballImg = this.app.getAssetManager().getAssetByName('ball');
-        let ball = new Ball(htmlCanvas.width / 2, htmlCanvas.height - 60, ballImg);
-        ball.setSpeed(30);
-        ball.setDirection(new Vec2(0, -1));
+        let borderLeft = new Rectangle(0, 15, 10, htmlCanvas.height - 15 - 15);
+        let borderTop = new Rectangle(15, 0, htmlCanvas.width - 15 - 15, 10);
+        let borderRight = new Rectangle(htmlCanvas.width - 10, 15, 10, htmlCanvas.height - 15 - 15);
+        let borderBot = new Rectangle(15, htmlCanvas.height - 10, htmlCanvas.width - 15 - 15, 10);
 
-        this.renderer.enableDebug(true);
+        this.text = new Text(50, 50, '☯');
 
-        let im = this.app.getInputManager();
-        let padImg = this.app.getAssetManager().getAssetByName('pad');
-        let pad = new Paddle(htmlCanvas.width / 2, htmlCanvas.height - 13, padImg, true, im);
-        let bricks = [];
-        let rows = 18;
-        for (let i = 1; i < 16; i++) {
-            for (let j = 1; j < rows; j++) {
-                bricks.push(new Brick(15 * i, 9 * j, 5, this.app.getAssetManager()));
-            }
-        }
+        borderLeft.setDirection(new Vec2(0, 1));
+        borderTop.setDirection(new Vec2(1, 0));
+        borderRight.setDirection(new Vec2(0, -1));
+        borderBot.setDirection(new Vec2(-1, 0));
+        this.text.setDirection(new Vec2(1, 1));
 
-        ball.setSpeed(100);
-        ball.setDirection(new Vec2(0, -1));
+        this.text.setSpeed(40);
 
-        this.getLayer(LayerNames.RARE).setState(bricks);
+        this.text.collidable = true;
+
+        this.text.name = 'text';
+        borderLeft.name = 'borderLeft';
+        borderTop.name = 'borderTop';
+        borderRight.name = 'borderRight';
+        borderBot.name = 'borderBot';
+
+        this.getLayer(LayerNames.NEVER).setState([
+            borderLeft,
+            borderTop,
+            borderRight,
+            borderBot
+        ]);
+
         this.getLayer(LayerNames.OFTEN).setState([
-            ball, pad
+            this.text
         ]);
 
     }
 
     onUpdate(dtime) {
         super.onUpdate(dtime);
-
-        if (this.counter % 1000 === 0) {
+        if (this.counter % 600 === 0) {
             this.counter = 100;
             window.console.log('reset counter');
         }
+        this.text.setSpeed(this.counter += 1);
     }
 
     /**
@@ -88,4 +93,4 @@ const getKeybindings = () => {
     return null;
 };
 
-export default InGameScene;
+export default TestInGameScene;
