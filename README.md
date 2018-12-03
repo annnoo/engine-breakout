@@ -32,128 +32,139 @@ The default port for most webservers is 80. You can determine the version by the
 
 *Please notice the known bugs and the supported browsers!*
 
+## Browsers compatibility
+
+* Google Chrome
+* ...
+
+## Known bugs
+
+* ...
+
+## Authors
+
+* [Christian Danscheid](https://gitlab.com/webD97) - Christian Danscheid
+* [Anno](https://gitlab.com/annnoo) - Anno Kerp
+* [Tebros](https://gitlab.com/Tebros) - Yannik Ries
+
+
+## Assignments and responsibilities
+
+In general, every author has worked on all parts of the project, 
+be it bug fixing, add functionality to existing classes or general architecture.
+In the following the responsibilities for the main parts are listed.
+
+* **Christian Danscheid**
+    * Renderer with all underlying components
+    * SceneManager
+    * DOMScene and CanvasScene
+    * GameLoop
+* **Anno Kerp**
+    * Vector2D
+    * InputManager
+    * AudioManager
+    * Game objects
+    * All image files
+    * All audio files
+* **Yannik Ries**
+    * AssetManager
+    * CollisionDetection
+    * Physics
+    * StorageManager
+    * AbstractApp
+    * LevelManager and Level
+    * README
+
+## Used technologies
+
+* [EditorConfig](https://editorconfig.org/) ensures that all developers have a consistent coding style
+* [npm](https://www.npmjs.com/) helps to download some of the other technologies
+* [ESLint](https://eslint.org/) checks the code for coding standards and outputs warnings
+* [webpack](https://webpack.js.org/) bundles and minifies the code and assets
+* [git](https://git-scm.com/) helps us to develop with more than a single person on this project 
+and controls the versions
+* [Some webpack loaders](https://webpack.js.org/loaders/) which allow to bundle other files besides .js files
+
+## License
+This project is licensed under the MIT license. All images and 
+audio files were created by the developers of this project and 
+are licensed with the same license.
+
+* [EditorConfig](https://editorconfig.org/) Creative Commons Attribution 3.0 Unported
+* [npm](https://www.npmjs.com/policies/npm-license) Artistic License 2.0
+* [ESLint](https://github.com/eslint/eslint/blob/master/LICENSE) MIT
+* [webpack](https://github.com/webpack/webpack/blob/master/LICENSE) MIT
+* [git](https://git-scm.com/about/free-and-open-source) GNU GPLv2 
+* [Some webpack loaders](https://webpack.js.org/loaders/) 
+    * [style-loader](https://github.com/webpack-contrib/style-loader/blob/master/LICENSE) MIT
+    * [css-loader](https://github.com/webpack-contrib/css-loader/blob/master/LICENSE) MIT 
+    * [file-loader](https://github.com/webpack-contrib/file-loader/blob/master/LICENSE) MIT
+    * [image-webpack-loader](https://github.com/webpack-contrib/file-loader/blob/master/LICENSE) MIT 
+    * [dom-element-loader](https://github.com/Makio64/dom-element-loader) MIT
+
+
 # Developer manual
 
-## Architecture
-#### SceneManager
-Use a `SceneManager` to manage scenes. The SceneManager will take of updating GameObjects in the currently active scene, but its `onUpdate(dtime)` method must be called from within the Game Loop.
+## Getting Started
 
-Register scenes with `sceneManager.registerScene(id, scene)`. Switch between scenes by calling `sceneManager.activateScene(id)`. To pass arguments to the next scene, call `sceneManager.activateScene(id, { arg1: 'val1' })`.
+### Requirements
 
-#### Scenes
-There are two types of scenes: DOM-Scenes and Canvas-Scenes. DOM-Scenes consist of arbitrary HTML and CSS, maybe even JS (untested). Canvas Scenes only have a `<canvas>` with a `LayeredRenderer` instance. Canvas Scenes use a LayeredRenderer and GameLoop.
-
-##### Creating a Canvas-Scene
-```js
-const layers = ['bg', 'fg'];
-const keybindings = null; // TODO
-const app = null; // Put your AbstractApplication instance here
-
-class MyScene extends CanvasScene {
-    constructor(custom, layers, keybindings, app) {
-        super(layers, keybindings, app);
-        this.custom = custom;
-    }
-
-    onAfterMount() {
-        const bg = this.renderer.getLayer('bg');
-        const obj = new SampleGameObject(10, 20, this.app, custom);
-
-        bg.state.push(obj);
-    }
-}
-
-const myScene = new MyScene();
-
-sceneManager.registerScene('my-scene', myScene);
-```
-
-##### Creating a Canvas-Scene
-```html
-<template>
-    <h1>Main Menu</h1>
-    <button class="start-game">Play</button>
-</template>
-```
-```js
-import TEMPLATE from './my-scene.template.html';
-
-const keybindings = null; // TODO
-const app = null; // Put your AbstractApplication instance here
-
-class MyHtmlScene extends DOMScene {
-    constructor(custom, keybindings, app) {
-        super(TEMPLATE, keybindings, app);
-        this.custom = custom;
-    }
-
-    onBeforeMount(args) {
-        const node = super.onBeforeMount(args);
-
-        node.getElementsByClassName('start-game')[0].addEventListener('click', this._onStartButtonClicked);
-
-        return node;
-    }
-
-    _onStartButtonClicked() {
-        this.app.activateScene('in-game', { arg1: 42 });
-    }
-}
-
-const myHtmlScene = new MyHtmlScene();
-
-sceneManager.registerScene('my-html-scene', myHtmlScene);
-```
-
-##### Accessing state
-Only Canvas-Scenes have state (two dimensional array of layers and game objects). Access it using `scene.renderer.getLayer(id).state`.
-
-##### Lifecycle
-1. onBeforeMount(arguments): Called when the scene gets activated and right before the scene's DOM node is mounted into the document. Receives an object with arguments passed by the last scene or the SceneManager. Must return the DOM node to mount.
-
-2. onAfterMount(): Called right after the scene's DOM node has been mounted.
-
-3. onUpdate(dtime): Called when the scene is active and the SceneManager's onUpdate method has been called. Should not be called manually.
-
-4. onBeforeUnmount(arguments): Called when another gets activated and right before this scene's DOM node gets unmounted from the document. Receives arguments object for the next scene and can be used to modify these. Must return arguments.
-
-### Getting Started
-
-#### Requirements
+Please ensure that the following requirements are installed.
 
 * node.js
 * npm
 
-Local installation of the dependencies
+Run npm install to install all dependencies locally.
 ```
 npm install
 ```
 
-Global Installation of eslint for easy cli use
+Please install eslint globally.
 ```
 npm install -g eslint
 ```
 
-#### Check your code
+Please check if your IDE supports EditorConfig.
 
-You can use
+### Check your code
+
+You can check your coding style by running
 ```
 eslint ./src/**
 ```
-or the npm script
+If you prefer a npm script you are welcome to use
 ```
 npm run eslint
 ```
 
-#### Building
+### Development build
 
-To build the project, just type
+You can use the following command that webpack builds your project automatically whenever there is a change.
 ```
-npx webpack
+npm run dev
 ```
-or use the following npm script
+
+You can find your build in the */dist* directory.
+
+The entry point of webpack is *./src/index.js*. It bundles
+all resources into *./dist/main.js*.
+
+### Productive build
+
+Similar to the development build, you can also use *npm run dev*.
+But in some cases you want to build the project by your own. 
+```
+npm webpack
+```
+or you can also use a npm script
 ```
 npm run build
 ```
 
-It creates ./dist/main.js file using the ./src/index.js file
+The distribution is equal to the development build.
+
+**Important:** The *.gitignore* file in the */dist* directory
+excludes everything but *index.html*. So ensure that your commit
+contains the whole content of the */dist* directory! 
+
+
