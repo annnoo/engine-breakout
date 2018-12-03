@@ -34,6 +34,47 @@ The default port for most webservers is 80. You can determine the version by the
 
 *Please notice the known bugs and the supported browsers!*
 
+## Add level
+
+To add a level you can simply copy the level file into the following directory in your public
+directory of the webserver. Please make sure that the level format is respected. Otherwise
+your level will look very empty.
+
+```
+breakout-<version>
+  |- /dist
+    |- /levels
+      |- getlevelnames.php
+      |- level.json
+      |- myLevel.json
+      |- customNamedLevel.json
+```
+
+### Level format
+
+Levels are json files in which an object is defined that represents the level. The object has a *name* attribute
+that specifies the name of the level and a *positions* attribute. The value of this attribute is an 2D array. Each
+entry represents a row. The values of a row represent a cell in the game area. Values below or equal 0 are invisible
+or non existing bricks. Values above 0  indicate that there is a brick at this point or in this cell.
+
+Each implementation of the breakout game can interpret the cell value individually. In our case it defines the
+amount of lives of the stone. Depending on the number of lives a brick has a different colour.
+
+```json
+{
+    "name": "My Fancy Level 1",
+    "positions": [
+        [1, 0, 0, 1],
+        [0, 2, 2, 0],
+        [1, 0, 0, 1]
+    ]
+}
+```
+
+If your game area is 9 cells wide and 10 cells high, this example level will like this.
+
+![Level Example](https://files.tebros.de/unprotected/breakout/level_example.png)
+
 ## Browsers compatibility
 
 * Google Chrome
