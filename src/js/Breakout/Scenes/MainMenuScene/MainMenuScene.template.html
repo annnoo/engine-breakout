@@ -1,0 +1,93 @@
+<template>
+    <style>
+        #main-menu {
+            display: grid;
+            grid-template-columns: 60% 40%;
+            grid-template-rows: 15% auto 10%;
+            grid-template-areas:
+                "header header"
+                "media buttons"
+                "footer footer";
+            padding: 1em 4em;
+            cursor: default;
+            user-select: none;
+            -moz-user-select: none;
+            -webkit-user-select: none;
+        }
+
+        #main-menu > header {
+            grid-area: header;
+            text-align: center;
+
+            color: white;
+        }
+
+        #main-menu > section.media-area {
+            grid-area: media;
+        }
+
+        #main-menu > section.media-area > * {
+            display: block;
+            position: relative;
+            width: 80%;
+            top: 50%;
+            transform: translateY(-50%);
+            margin: 0 auto;
+            image-rendering: -moz-crisp-edges;
+            image-rendering: pixelated;
+        }
+
+        #main-menu > section.buttons {
+            grid-area: buttons;
+            padding: 1em 4em;
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+            justify-content: center;
+        }
+
+        #main-menu > section.buttons button {
+            appearance: none;
+            -moz-appearance: none;
+            -webkit-appearance: none;
+            background-color: transparent;
+            border: none;
+            margin: .5em 0;
+            outline: 1px white dotted;
+            font-size: 1.45rem;
+            cursor: pointer;
+        }
+
+        #main-menu > footer {
+            grid-area: footer;
+            text-align: right;
+        }
+
+        #main-menu > footer > small > a {
+            color: white;
+            text-decoration: none;
+        }
+    </style>
+
+    <div id="main-menu">
+        <header>
+            <h1>Breakout</h1>
+        </header>
+
+        <section class="media-area">
+            <!-- Image URI can be changed via scene argument imgURI -->
+            <img src="http://placehold.it/1920x1080" alt="Fancy teaser image" />
+        </section>
+
+        <section class="buttons">
+            <button id="start-game">Start game</button>
+            <button id="select-level">Select level</button>
+        </section>
+
+        <footer>
+            <small>
+                🌍&nbsp;<a href="https://gitlab.com/seeya-js/breakout" target="_blank">&copy;2018 Anno Kerp, Yannik Ries, Christian Danscheid</a>
+            </small>
+        </footer>
+    </div>
+</template>
