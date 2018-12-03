@@ -27,11 +27,64 @@ class LevelManager {
             }
         }
          */
-        this.highscores = this.getStorageManager().getItem('highscores');
+        this.highscores = this.app.getStorageManager().getItem('highscores');
         if (this.highscores === undefined || this.highscores === null) {
             this.highscores = {};
         }
+
+        this.levels = new Map();
     }
+
+    /**
+     * Invokes the given callback with an array of all level names as parameter.
+     * [ "level1.json", "level2.json" ]
+     *
+     * @param callback Callback that is called when the response is ready
+     */
+    requestLevelNames(callback) {
+        let req = new XMLHttpRequest();
+        req.responseType = 'json';
+        req.onreadystatechange = () => {
+            if (req.readyState == 4) {
+                if (req.status == 200) {
+                    callback(req.response);
+                } else {
+                    window.console.error('An error occurred after requesting the level names. Status='+req.status);
+                    callback([]);
+                }
+            }
+        };
+        req.open('GET', './levels/getlevelnames.php', true);
+        req.send();
+    }
+
+    getLevel(levelFileName, callback) {
+        if(this.levels.has(levelFileName)){
+            callback(this.levels.get(levelFileName));
+            return;
+        }
+        this._requestLevel(levelFileName, callback);
+    }
+
+    _requestLevel(levelFileName, callback){
+        let req = new XMLHttpRequest();
+        req.responseType = 'json';
+        req.onreadystatechange = () => { //TODO: bind this ?
+            if (req.readyState == 4) {
+                if (req.status == 200) {
+                    let level = Level.from(req.response);
+                    this.levels.set(levelFileName, level);
+                    callback(level);
+                } else {
+                    window.console.error('An error occurred after requesting a level. Status='+req.status+' levelFileName='+levelFileName);
+                    callback();
+                }
+            }
+        };
+        req.open('GET', './levels/'+levelFileName, true);
+        req.send();
+    }
+
 
     /**
      * Checks if the given score is a highscore in this level and saves it if this is the case.
@@ -73,7 +126,7 @@ class LevelManager {
      * @param level
      * @returns {*}
      */
-    getHighscores(level){
+    getHighscores(level) {
         return this.highscores[level.getIdentifier()];
     }
 
@@ -84,22 +137,22 @@ class LevelManager {
      * @param level
      * @returns {*}
      */
-    getHighscore(level){
+    getHighscore(level) {
         //TODO: test if it works
         let section = this.highscores[level.getIdentifier()];
-        if(section===undefined) return undefined;
+        if (section === undefined) return undefined;
 
 
         let date;
         let highscore = 0;
 
-        for(let d in section){
-            if (section[d] > highscore){
+        for (let d in section) {
+            if (section[d] > highscore) {
                 highscore = section[d];
                 date = d;
             }
         }
-        if(date===undefined) return undefined;
+        if (date === undefined) return undefined;
 
         return {
             date: date,
@@ -107,7 +160,7 @@ class LevelManager {
         };
     }
 
-    _saveHighscoresPersistent(){
+    _saveHighscoresPersistent() {
         this.app.getStorageManager().setItem('highscores', this.highscores);
         this.app.getStorageManager().savePersistent();
     }
