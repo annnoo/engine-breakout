@@ -8,6 +8,8 @@ technologies that were used are explained.
 This project was initiated with regard to the lecture "Projects of business informatics" 
 at the [FHDW](https://www.fhdw.de/).
 
+Date of creation: 19.11.2018
+
 # User manual
 
 ## Getting started
