@@ -28,6 +28,11 @@ class InGameScene extends CanvasScene {
 
         let htmlCanvas = this.renderer.canvas.display;
 
+        htmlCanvas.requestPointerLock = htmlCanvas.requestPointerLock ||
+            htmlCanvas.mozRequestPointerLock;
+
+        htmlCanvas.requestPointerLock();
+
         let ballImg = this.app.getAssetManager().getAssetByName('ball');
         let ball = new Ball(htmlCanvas.width / 2, htmlCanvas.height - 60, ballImg);
         ball.setSpeed(30);
