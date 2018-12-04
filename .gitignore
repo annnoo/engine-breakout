@@ -40,3 +40,4 @@ jspm_packages/
 
 # .net env variables
 .env
+.vscode/settings.json

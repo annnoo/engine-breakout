@@ -1,7 +1,9 @@
 'use strict';
 
-import Physical from '../Physic/Physical';
+import Physical from '../CollisionDetection/Physical';
 import Vec2 from '../Math/Vec2';
+import Area from '../Math/Area';
+
 
 /**
  * @author Yannik Ries
@@ -18,24 +20,25 @@ class GameObject extends Physical {
      */
     constructor(posX, posY, area, collidable) {
         super();
+
+
         this.position = new Vec2(posX, posY);
         this.direction = new Vec2(0, 0);
         this.speed = 0; //pixel per second
-
+        /** @property {Area} */
         this.area = area;
-        this.currentlyColliding = false;
 
         this.collidable = collidable;
     }
 
     update(dtime) {
         super.update(dtime);
-        this._update(dtime);
+        return this._update(dtime);
     }
 
     rollback(dtime) {
         super.rollback(dtime);
-        this._update(dtime, true);
+        return this._update(dtime, true);
     }
 
     /**
@@ -46,7 +49,7 @@ class GameObject extends Physical {
      * @private
      */
     _update(dtime, invert = false) {
-        if (this.speed === 0) return;
+        if (this.speed === 0) return false;
         let len = this.direction.length();
         let multiplier = this.speed / len;
         let velocity = this.direction.clone().multiply(multiplier * dtime);
@@ -56,6 +59,27 @@ class GameObject extends Physical {
         }
         this.position.addVec(velocity);
         this.area.move(velocity.x, velocity.y);
+        return velocity.length()!=0;
+    }
+
+    /**
+     * Sets the new position of the game object.
+     *
+     * @param posX New x position
+     * @param posY New y position
+     */
+    setPosition(posX, posY){
+        this.area.moveTo(posX, posY);
+        this.position.set(posX, posY);
+    }
+
+    /**
+     * Returns the current position of the game object
+     *
+     * @returns {Vec2} Current position
+     */
+    getPosition(){
+        return this.position;
     }
 
     /**

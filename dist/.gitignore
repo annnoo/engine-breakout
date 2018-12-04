@@ -4,3 +4,6 @@
 # Except these files
 !.gitignore
 !index.html
+!levels
+!levels/getlevelnames.php
+!levels/uploadlevel.php
