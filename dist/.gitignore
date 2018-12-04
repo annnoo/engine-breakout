@@ -1,0 +1,9 @@
+# Ignore everything
+*
+
+# Except these files
+!.gitignore
+!index.html
+!levels/*.json
+!levels/getlevelnames.php
+!levels/uploadlevel.php

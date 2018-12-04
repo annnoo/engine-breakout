@@ -1,0 +1,43 @@
+# IDEs
+.idea
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+
+# VSCode
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Dependencies
+node_modules/
+jspm_packages/
+/vendor
+
+# npm cache
+.npm
+
+# eslint cache
+.eslintcache
+
+# 'npm pack'
+*.tgz
+
+# yarn integrity
+.yarn-integrity
+
+# .net env variables
+.env
+.vscode/settings.json
