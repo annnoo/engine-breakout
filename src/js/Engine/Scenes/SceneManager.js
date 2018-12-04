@@ -57,8 +57,16 @@ class SceneManager {
             this.activeScene = sceneId;
 
             // Get DOM node of new scene, add it to DOM
-            const newNode = this.registeredScenes[this.activeScene].onBeforeMount(args);
-            this.domNode.appendChild(newNode);
+            /** @type {Promise} */
+            let newNode = this.registeredScenes[this.activeScene].onBeforeMount(args);
+            if (newNode instanceof Promise) {
+                newNode = newNode.then(node => {
+                    this.domNode.appendChild(node);
+                });
+            }
+            else {
+                this.domNode.appendChild(newNode);
+            }
 
             // no idea why, but these two will not be identical
             this.activeSceneDomNode = newNode;

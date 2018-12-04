@@ -25,9 +25,11 @@ class MainMenuScene extends DOMScene {
      *
      * @override
      */
-    onBeforeMount(args) {
+    async onBeforeMount(args) {
         /** @type {HTMLElement} */
         const node = super.onBeforeMount(args);
+
+        const levelNames = await this.app.getLevelManager().requestLevelNames();
 
         // Parse scene args
         this.selectedLevel = args.selectedLevelID;
@@ -35,30 +37,17 @@ class MainMenuScene extends DOMScene {
 
         this.args = args;
 
-        this.levels = [
-            {id: 1, name: 'Level 1'},
-            {id: 2, name: 'Level 2'},
-            {id: 3, name: 'Level 3'},
-            {id: 4, name: 'Level 4'},
-            {id: 5, name: 'Level 5'},
-            {id: 6, name: 'Level 6'},
-            {id: 7, name: 'Level 7'},
-            {id: 8, name: 'Level 8'},
-            {id: 9, name: 'Level 9'},
-            {id: 10, name: 'Level 10'},
-        ];
-
         this.pageSize = 4;
         this.firstPage = 1;
-        this.lastPage = Math.ceil(this.levels.length / this.pageSize);
+        this.lastPage = Math.ceil(levelNames.length / this.pageSize);
 
-        const levels = this.levels.slice((this.displayPage - 1) * this.pageSize, (this.displayPage - 1) * this.pageSize + this.pageSize);
+        const levels = levelNames.slice((this.displayPage - 1) * this.pageSize, (this.displayPage - 1) * this.pageSize + this.pageSize);
 
         levels.forEach(level => {
             const levelButton = document.createElement('button');
             levelButton.classList = 'level-changer button button-orange';
-            levelButton.dataset.levelId = level.id;
-            levelButton.innerHTML = level.name;
+            levelButton.dataset.levelId = level;
+            levelButton.innerHTML = level;
 
             node.querySelector('.items').appendChild(levelButton);
         });
@@ -132,6 +121,11 @@ class MainMenuScene extends DOMScene {
     }
 
     _selectLevel(id) {
+        console.log('Making ingame scene load level ' + id);
+        const ingameScene = this.app.getSceneManager().registeredScenes[SceneNames.INGAME];
+        ingameScene.loadLevel(id);
+
+        console.log('Refreshing view');
         this.app.getSceneManager().activateScene(SceneNames.LEVEL_SELECT, { ...this.args, selectedLevelID: id });
     }
 
