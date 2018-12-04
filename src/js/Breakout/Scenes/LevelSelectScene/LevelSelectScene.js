@@ -8,6 +8,7 @@ import RED_BRICK from '../MainMenuScene/brick_red.png';
 import ORANGE_BRICK from '../MainMenuScene/brick_orange.png';
 import GREEN_BRICK from '../MainMenuScene/brick_green.png';
 import BLUE_BRICK from '../MainMenuScene/brick_blue.png';
+import TEASER from '../MainMenuScene/DefaultTeaser.png';
 
 class MainMenuScene extends DOMScene {
     /**
@@ -32,10 +33,13 @@ class MainMenuScene extends DOMScene {
         const levelNames = await this.app.getLevelManager().requestLevelNames();
 
         // Parse scene args
-        console.log(args);
         this.selectedLevel = args.selectedLevelID;
         this.displayPage = args.page ? args.page : 1;
 
+        // Teaser
+        node.querySelector(TEASER_IMG).src = TEASER;
+
+        // Level
         this.args = args;
 
         this.pageSize = 4;
@@ -53,6 +57,7 @@ class MainMenuScene extends DOMScene {
             node.querySelector('.items').appendChild(levelButton);
         });
 
+
         // Back button
         node.querySelector('#back-button').addEventListener('click', this._backToMainMenu.bind(this));
 
@@ -62,7 +67,6 @@ class MainMenuScene extends DOMScene {
             element.addEventListener('click', (() => this._selectLevel(levelId)).bind(this));
 
             // Make the button of the selected level red
-            console.log(levelId + ' ' + this.selectedLevel);
             if (levelId === this.selectedLevel) {
                 element.classList.replace('button-orange', 'button-red');
             }
