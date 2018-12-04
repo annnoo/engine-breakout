@@ -99,9 +99,6 @@ class MainMenuScene extends DOMScene {
             node.querySelector('#next-page').disabled = true;
          }
 
-        // Teaser image
-        node.querySelector(TEASER_IMG).src = (args.imgURI) ? args.imgURI : 'http://placehold.it/1920x1080';
-
         node.querySelectorAll('.button').forEach(element => {
             element.style.borderImageSlice = '2';
             element.style.borderImageWidth = '10px';
