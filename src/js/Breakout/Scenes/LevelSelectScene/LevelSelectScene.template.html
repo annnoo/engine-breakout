@@ -42,13 +42,25 @@
         #level-select > section.buttons {
             grid-area: buttons;
             padding: 0 4em;
-            display: flex;
-            flex-direction: column;
-            align-items: stretch;
 
             height: 100%;
-            flex: 1 1 auto;
-            justify-content: safe center;
+            display: grid;
+            grid-template-areas:
+                "items"
+                "nav";
+            grid-template-columns: 100%;
+            grid-template-rows: 80% auto;
+        }
+
+        #level-select > section.buttons > .items {
+            grid-area: items;
+            display: flex;
+            flex-direction: column;
+        }
+
+        #level-select > section.buttons > nav {
+            grid-area: nav;
+            text-align: center;
         }
 
         #level-select .button {
@@ -79,7 +91,11 @@
             margin-bottom: 0;
         }
 
-        #level-select .button:hover {
+        #level-select .button:disabled {
+            opacity: .5;
+        }
+
+        #level-select .button:hover:not(:disabled) {
             transform: scale(1.025);
             transition: transform 200ms ease-in-out;
         }
@@ -102,6 +118,7 @@
 
         #level-select > footer {
             grid-area: footer;
+            text-align: right;
         }
     </style>
 
@@ -116,21 +133,15 @@
         </section>
 
         <section class="buttons">
-            <button class="level-changer button button-orange" data-level-id="1">Level 1 Name</button>
-            <button class="level-changer button button-orange" data-level-id="2">Level 2 Name</button>
-            <button class="level-changer button button-orange" data-level-id="3">Level 3 Name</button>
-            <button class="level-changer button button-orange" data-level-id="4">Level 4 Name</button>
-            <button class="level-changer button button-orange" data-level-id="4">Level 5 Name</button>
-            <button class="level-changer button button-orange" data-level-id="4">Level 6 Name</button>
-            <button class="level-changer button button-orange" data-level-id="4">Level 7 Name</button>
-            <button class="level-changer button button-orange" data-level-id="4">Level 8 Name</button>
-            <button class="level-changer button button-orange" data-level-id="4">Level 9 Name</button>
-            <button class="level-changer button button-orange" data-level-id="4">Level 10 Name</button>
-            <button class="level-changer button button-orange" data-level-id="4">Level 11 Name</button>
-            <button class="level-changer button button-orange" data-level-id="4">Level 12 Name</button>
-            <button class="level-changer button button-orange" data-level-id="4">Level 13 Name</button>
-            <button class="level-changer button button-orange" data-level-id="4">Level 14 Name</button>
-            <button class="level-changer button button-orange" data-level-id="4">Level 15 Name</button>
+            <div class="items">
+                <!-- Level entries will be inserted here dynamically -->
+            </div>
+            <nav>
+                <button id="first-page" class="button button-green">&laquo;</button>
+                <button id="before-page" class="button button-green">&lsaquo;</button>
+                <button id="next-page" class="button button-green">&rsaquo;</button>
+                <button id="last-page" class="button button-green">&raquo;</button>
+            </nav>
         </section>
 
         <footer>
