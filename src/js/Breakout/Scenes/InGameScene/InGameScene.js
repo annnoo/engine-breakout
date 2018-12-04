@@ -47,6 +47,30 @@ class InGameScene extends CanvasScene {
     onAfterMount() {
         super.onAfterMount();
 
+
+        //wir befinden uns irgendwo in menu
+        //und jetzt wurde ein level selected
+        //und es soll geladen werden und
+        //nach dem laden in die ingame scene gewechselt werden
+
+        //das hier ist ein eintrag aus dem array, das du über
+        //this.app.getLevelManager().requestLevelNames(...)
+        //bekommst
+        let level = "level1.json";
+
+        this.app.getLevelManager().getLevel(level, (level) => {
+
+            //hier wäre es gut, wenn SceneManager eine getScene(id) methode hätte
+            let inGameScene = this.app.getSceneManager().registeredScenes[SceneNames.INGAME];
+
+            inGameScene.loadLevel(level);
+
+            //nun ist alles vorbereitet. jetzt kann die scene gewechselt werden
+
+            this.app.getSceneManager().activateScene(SceneNames.INGAME);
+
+        });
+
         //TODO: loading level into menuscene!
         this.app.getLevelManager().getLevel("level1.json", (level)=>{
 
@@ -76,8 +100,8 @@ class InGameScene extends CanvasScene {
         });
     }
 
-    onBeforeUnmount() {
-        super.onBeforeUnmount();
+    onBeforeUnmount(args) {
+        return super.onBeforeUnmount(args);
     }
 
     onUpdate(dtime) {
@@ -86,7 +110,7 @@ class InGameScene extends CanvasScene {
         //check keys
         //TODO: BUG: nothing happens when i press a key!
         let inputManager = this.app.getInputManager();
-        if(inputManager.keyPressed('start')){
+        if(inputManager.keyPressed(KeyNames.START)){
 
             this.infoText.visible = false;
             this.ball.setSpeed(100);
@@ -95,7 +119,7 @@ class InGameScene extends CanvasScene {
 
             let canvasImgSrc = this.renderer.canvas.display.toDataURL(); //current image of canvas as src attribute
             this.app.getSceneManager().activateScene(SceneNames.MAIN_MENU, {
-                imgURI: canvasImgSrc
+                imgURI: undefined
             });
 
         }else if(inputManager.keyPressed(KeyNames.TOGGLE_DEBUG)){
@@ -168,11 +192,12 @@ const KeyNames = {
 
 const getKeybindings = () => {
     //TODO: define some keybindings
-    return {
-        START: 13, //ENTER
-        PAUSE: 27, //ESC
-        TOGGLE_DEBUG: 68, //D
-    };
+    let bindings = {};
+    bindings[KeyNames.START] = 13;
+    bindings[KeyNames.PAUSE] = 27;
+    bindings[KeyNames.TOGGLE_DEBUG] = 68;
+
+    return bindings;
 };
 
 export default InGameScene;

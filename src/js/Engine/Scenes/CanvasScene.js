@@ -29,8 +29,8 @@ class CanvasScene extends DOMScene {
     /**
      * @override
      */
-    onBeforeMount() {
-        const node = super.onBeforeMount();
+    onBeforeMount(args) {
+        const node = super.onBeforeMount(args);
 
         const canvas = node.querySelector('canvas');
         this.renderer = new LayeredRenderer(canvas, this.layerIDs);
@@ -50,9 +50,10 @@ class CanvasScene extends DOMScene {
     /**
      * @override
      */
-    onBeforeUnmount() {
+    onBeforeUnmount(args) {
         this.gameloop.stop();
         this.renderer.unregisterRenderLoop();
+        return args;
     }
 
     /**
