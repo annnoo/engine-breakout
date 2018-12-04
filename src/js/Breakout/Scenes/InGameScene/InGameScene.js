@@ -8,6 +8,7 @@ import Ball from '../../GameObjects/Ball';
 import Paddle from '../../GameObjects/Paddle';
 import Brick from '../../GameObjects/Brick';
 import {SceneNames} from '../../App/BreakoutApp';
+import Sprite from '../../../Engine/GameObjects/Sprite';
 
 const CANVAS_WIDTH = 360; //canvas.width
 const CANVAS_HEIGHT = 240; //canvas.height
@@ -57,8 +58,12 @@ class InGameScene extends CanvasScene {
         this.walls = [wT, wR, wB, wL];
         this.walls = []; //TODO: remove
 
+        let bgImg = this.app.getAssetManager().getAssetByName('bg');
+        this.background = new Sprite(0, 0, bgImg, false);
 
         this.infoText = new Text(100, 10, ''); //TODO: change pos and font!
+
+        this.currentLevel = undefined;
     }
 
     onAfterMount() {
@@ -68,6 +73,7 @@ class InGameScene extends CanvasScene {
             this.reloadLevelOnMounted = false;
 
             this.getLayer(LayerNames.OFTEN).setState([
+                this.background,
                 ...this.bricks,
                 this.infoText,
                 this.ball,
@@ -153,6 +159,23 @@ class InGameScene extends CanvasScene {
         }
 
         this.reloadLevelOnMounted = true;
+        this.levelLoaded = true;
+    }
+
+    /**
+     *
+     * @returns {boolean} If any level is loaded
+     */
+    isAnyLevelLoaded() {
+        return this.currentLevel !== undefined && this.currentLevel !== null;
+    }
+
+    /**
+     *
+     * @returns {Level} Current level
+     */
+    getLoadedLevel() {
+        return this.currentLevel;
     }
 
     /**

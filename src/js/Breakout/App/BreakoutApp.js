@@ -3,6 +3,7 @@
 import AbstractApp from '../../Engine/App/AbstractApp';
 import InGameScene from '../Scenes/InGameScene/InGameScene';
 import PreGameScene from '../Scenes/PreGameScene';
+import BgImg1 from '../../../img/bg1.jpeg';
 import BallImg from '../../../img/cropped_filter/ball2.png';
 import PadImage from '../../../img/cropped_filter/paddle_m2_cropped_long.png';
 import BrickImg1 from '../../../img/cropped_filter/brick1_cropped.png';
@@ -38,6 +39,8 @@ class BreakoutApp extends AbstractApp {
     start() {
         //TODO: download all assets
 
+
+        this.getAssetManager().addAsset(BgImg1, 'image', 'bg');
         this.getAssetManager().addAsset(BallImg, 'image', 'ball');
         this.getAssetManager().addAsset(PadImage, 'image', 'pad');
         this.getAssetManager().addAsset(BrickImg1, 'image', 'brick1');
