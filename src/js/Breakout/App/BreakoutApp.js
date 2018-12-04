@@ -13,6 +13,7 @@ import BrickImg5 from '../../../img/cropped_filter/brick4_str-e1_cropped.png';
 import TestInGameScene from '../Scenes/TestInGameScene';
 
 import MainMenuScene from '../Scenes/MainMenuScene/MainMenuScene';
+import LevelSelectScene from '../Scenes/LevelSelectScene/LevelSelectScene';
 import LevelManager from '../Level/LevelManager';
 
 class BreakoutApp extends AbstractApp {
@@ -28,7 +29,7 @@ class BreakoutApp extends AbstractApp {
         this.getSceneManager().registerScene(SceneNames.INGAME, new InGameScene(this));
 
         this.getSceneManager().registerScene(SceneNames.MAIN_MENU, new MainMenuScene(this));
-
+        this.getSceneManager().registerScene(SceneNames.LEVEL_SELECT, new LevelSelectScene(this));
     }
 
     /**

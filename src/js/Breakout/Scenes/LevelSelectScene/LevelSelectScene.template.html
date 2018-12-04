@@ -1,0 +1,140 @@
+<template>
+    <style>
+        #level-select {
+            display: grid;
+            height: 100vh;
+            box-sizing: border-box;
+            grid-template-columns: 60% 40%;
+            grid-template-rows: 15% auto 10%;
+            grid-template-areas:
+                "header header"
+                "media buttons"
+                "footer footer";
+            padding: 1em 4em;
+            cursor: default;
+            user-select: none;
+            -moz-user-select: none;
+            -webkit-user-select: none;
+        }
+
+        #level-select > header {
+            grid-area: header;
+            text-align: center;
+
+            color: white;
+        }
+
+        #level-select > section.media-area {
+            grid-area: media;
+        }
+
+        #level-select > section.media-area > * {
+            display: block;
+            position: relative;
+            width: 80%;
+            top: 50%;
+            transform: translateY(-50%);
+            margin: 0 auto;
+            image-rendering: -moz-crisp-edges;
+            image-rendering: pixelated;
+        }
+
+        #level-select > section.buttons {
+            grid-area: buttons;
+            padding: 0 4em;
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+
+            height: 100%;
+            flex: 1 1 auto;
+            justify-content: safe center;
+        }
+
+        #level-select .button {
+            appearance: none;
+            -moz-appearance: none;
+            -webkit-appearance: none;
+            background-color: transparent;
+            border: none;
+            margin: .5em 0;
+            font-size: 1.45rem;
+            cursor: pointer;
+
+            image-rendering: -moz-crisp-edges;
+            image-rendering: pixelated;
+            border-image-slice: 33;
+            border-image-width: 33;
+            border-image-repeat: stretch;
+            border: 20px solid transparent;
+
+            transition: transform 200ms ease-in-out;
+        }
+
+        #level-select .button:first-child {
+            margin-top: 0;
+        }
+
+        #level-select .button:last-child {
+            margin-bottom: 0;
+        }
+
+        #level-select .button:hover {
+            transform: scale(1.025);
+            transition: transform 200ms ease-in-out;
+        }
+
+        #level-select .button-red {
+            background-color: #cb4413;
+        }
+
+        #level-select .button-orange {
+            background-color: #c1723b;
+        }
+
+        #level-select .button-blue {
+            background-color: #3342ce;
+        }
+
+        #level-select .button-green {
+            background-color: #3f9919;
+        }
+
+        #level-select > footer {
+            grid-area: footer;
+        }
+    </style>
+
+    <div id="level-select">
+        <header>
+            <h2>Select a level</h2>
+        </header>
+
+        <section class="media-area">
+            <!-- Image URI can be changed via scene argument imgURI -->
+            <img src="http://placehold.it/1920x1080" alt="Fancy teaser image" />
+        </section>
+
+        <section class="buttons">
+            <button class="level-changer button button-orange" data-level-id="1">Level 1 Name</button>
+            <button class="level-changer button button-orange" data-level-id="2">Level 2 Name</button>
+            <button class="level-changer button button-orange" data-level-id="3">Level 3 Name</button>
+            <button class="level-changer button button-orange" data-level-id="4">Level 4 Name</button>
+            <button class="level-changer button button-orange" data-level-id="4">Level 5 Name</button>
+            <button class="level-changer button button-orange" data-level-id="4">Level 6 Name</button>
+            <button class="level-changer button button-orange" data-level-id="4">Level 7 Name</button>
+            <button class="level-changer button button-orange" data-level-id="4">Level 8 Name</button>
+            <button class="level-changer button button-orange" data-level-id="4">Level 9 Name</button>
+            <button class="level-changer button button-orange" data-level-id="4">Level 10 Name</button>
+            <button class="level-changer button button-orange" data-level-id="4">Level 11 Name</button>
+            <button class="level-changer button button-orange" data-level-id="4">Level 12 Name</button>
+            <button class="level-changer button button-orange" data-level-id="4">Level 13 Name</button>
+            <button class="level-changer button button-orange" data-level-id="4">Level 14 Name</button>
+            <button class="level-changer button button-orange" data-level-id="4">Level 15 Name</button>
+        </section>
+
+        <footer>
+            <button id="back-button" class="button button-blue">&larr; Back to Main Menu</button>
+        </footer>
+    </div>
+</template>
