@@ -120,10 +120,11 @@ class MainMenuScene extends DOMScene {
         return node;
     }
 
-    _selectLevel(id) {
+    async _selectLevel(id) {
         console.log('Making ingame scene load level ' + id);
         const ingameScene = this.app.getSceneManager().registeredScenes[SceneNames.INGAME];
-        ingameScene.loadLevel(id);
+        const levelInstance = await this.app.levelManager.getLevel(id);
+        ingameScene.loadLevel(levelInstance);
 
         console.log('Refreshing view');
         this.app.getSceneManager().activateScene(SceneNames.LEVEL_SELECT, { ...this.args, selectedLevelID: id });
