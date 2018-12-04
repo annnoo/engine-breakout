@@ -24,6 +24,7 @@ class Brick extends Sprite {
 
     disable() {
         this.image = new Image(0, 0);
+        this.visible = false;
         this.collidable = false;
     }
 
@@ -38,6 +39,17 @@ class Brick extends Sprite {
         }
 
         return this.assetManager.getAssetByName(name);
+    }
+
+    /**
+     * Ports the given level brick to the brick game object and returns it.
+     *
+     * @param {LevelBrick} levelBrick Level brick that should be ported
+     * @param {AssetManager} assetManager The asset manager of the app
+     * @param {boolean} collidable If the brick is collidable (default=true)
+     */
+    static from(levelBrick, assetManager, collidable = true){
+        return new Brick(levelBrick.posX, levelBrick.posY, levelBrick.lifeCounter, assetManager, collidable);
     }
 
 }

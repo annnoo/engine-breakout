@@ -23,13 +23,13 @@ class Paddle extends Sprite {
             height: this.image.height
         };
         this.input = im;
-
-
     }
 
 
     update() {
         super.update();
+
+        if(this.speed==0) return;
 
         this.position.add(this.input.mouseMovement.x, 0);
         this.area.move(this.input.mouseMovement.x, 0);

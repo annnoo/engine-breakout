@@ -32,6 +32,7 @@ class Sprite extends GameObject {
 
     draw(context) {
         super.draw(context);
+        if(!this.visible) return;
         renderSprite(context, this);
     }
 }

@@ -7,6 +7,10 @@
  */
 class Renderable {
 
+    constructor(visible = true){
+        this.visible = visible;
+    }
+
     /**
      *
      * @param {CanvasRenderingContext2D} context

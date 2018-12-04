@@ -31,6 +31,7 @@ class Rectangle extends GameObject {
 
     draw(context) {
         super.draw(context);
+        if(!this.visible) return;
         renderRectangle(context, this);
     }
 }

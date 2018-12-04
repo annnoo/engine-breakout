@@ -1,7 +1,7 @@
 'use strict';
 
 import AbstractApp from '../../Engine/App/AbstractApp';
-import InGameScene from '../Scenes/InGameScene';
+import InGameScene from '../Scenes/InGameScene/InGameScene';
 import PreGameScene from '../Scenes/PreGameScene';
 import BallImg from '../../../img/cropped_filter/ball2.png';
 import PadImage from '../../../img/cropped_filter/paddle_m2_cropped_long.png';
@@ -21,14 +21,6 @@ class BreakoutApp extends AbstractApp {
         super(document.getElementsByTagName('main')[0]);
 
         this.levelManager = new LevelManager(this);
-
-        //TODO: register all scenes from SceneNames
-        this.getSceneManager().registerScene(SceneNames.PREGAME, new PreGameScene(this));
-        this.getSceneManager().registerScene(SceneNames.TESTGAME, new TestInGameScene(this));
-        this.getSceneManager().registerScene(SceneNames.INGAME, new InGameScene(this));
-
-        this.getSceneManager().registerScene(SceneNames.MAIN_MENU, new MainMenuScene(this));
-
     }
 
     /**
@@ -54,6 +46,14 @@ class BreakoutApp extends AbstractApp {
         this.getAssetManager().addAsset(BrickImg5, 'image', 'brick5');
 
         this.getAssetManager().downloadAll.bind(this)(() => {
+
+            //TODO: register all scenes from SceneNames
+            //load scenes only now, because of possible asset dependencies in constructor
+            this.getSceneManager().registerScene(SceneNames.PREGAME, new PreGameScene(this));
+            this.getSceneManager().registerScene(SceneNames.TESTGAME, new TestInGameScene(this));
+            this.getSceneManager().registerScene(SceneNames.INGAME, new InGameScene(this));
+            this.getSceneManager().registerScene(SceneNames.MAIN_MENU, new MainMenuScene(this));
+
             //TODO: activate your first visible scene
             this.getSceneManager().activateScene(SceneNames.MAIN_MENU);
         });

@@ -66,8 +66,7 @@ class Area {
      * @param {number} y New y-position
      */
     moveTo(x,y){
-        this.leftX = x;
-        this.topY = y;
+        this.move(x-this.leftX, y-this.topY);
     }
 
     /**

@@ -41,13 +41,6 @@ class GameObject extends Physical {
         return this._update(dtime, true);
     }
 
-    setPos(x,y){
-        this.area.move(this.position.x-x,this.position.y-y);
-        this.position.set(x,y);
-    }
-
-
-
     /**
      * Calculates and updates the position of the object with its direction and speed.
      *
@@ -67,6 +60,26 @@ class GameObject extends Physical {
         this.position.addVec(velocity);
         this.area.move(velocity.x, velocity.y);
         return velocity.length()!=0;
+    }
+
+    /**
+     * Sets the new position of the game object.
+     *
+     * @param posX New x position
+     * @param posY New y position
+     */
+    setPosition(posX, posY){
+        this.area.moveTo(posX, posY);
+        this.position.set(posX, posY);
+    }
+
+    /**
+     * Returns the current position of the game object
+     *
+     * @returns {Vec2} Current position
+     */
+    getPosition(){
+        return this.position;
     }
 
     /**
