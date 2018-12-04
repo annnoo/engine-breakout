@@ -1,6 +1,6 @@
-# Breakout
+# No Man's Brick
 
-Here you find the retro classic Arkanoid (BreakOut) as a modern web application.
+Here you find the game "No Man's Brick", a retro classic Arkanoid (BreakOut) as a modern web application.
 
 It is written in plain vanilla HTML5, CSS and JavaScript. In the following chapters the remaining 
 technologies that were used are explained.
