@@ -45,11 +45,11 @@ class LevelManager {
         let req = new XMLHttpRequest();
         req.responseType = 'json';
         req.onreadystatechange = () => {
-            if (req.readyState == 4) {
-                if (req.status == 200) {
+            if (req.readyState === 4) {
+                if (req.status === 200) {
                     callback(req.response);
                 } else {
-                    window.console.error('An error occurred after requesting the level names. Status='+req.status);
+                    window.console.error('An error occurred after requesting the level names. Status=' + req.status);
                     callback([]);
                 }
             }
@@ -58,33 +58,78 @@ class LevelManager {
         req.send();
     }
 
+    /**
+     * Invokes the given callback with the level as parameter if is exists.
+     * If the given levelFileName is known, the method returns the cached object.
+     *
+     * @param levelFileName Level file name (an entry of requestLevelNames)
+     * @param callback Callback that is called when the response is ready
+     */
     getLevel(levelFileName, callback) {
-        if(this.levels.has(levelFileName)){
+        if (this.levels.has(levelFileName)) {
             callback(this.levels.get(levelFileName));
             return;
         }
         this._requestLevel(levelFileName, callback);
     }
 
-    _requestLevel(levelFileName, callback){
+    /**
+     * Invokes the given callback with the level as parameter if is exists.
+     *
+     * @param levelFileName Level file name (an entry of requestLevelNames)
+     * @param callback Callback that is called when the response is ready
+     */
+    _requestLevel(levelFileName, callback) {
         let req = new XMLHttpRequest();
         req.responseType = 'json';
         req.onreadystatechange = () => { //TODO: bind this ?
-            if (req.readyState == 4) {
-                if (req.status == 200) {
+            if (req.readyState === 4) {
+                if (req.status === 200) {
                     let level = Level.from(req.response);
                     this.levels.set(levelFileName, level);
                     callback(level);
                 } else {
-                    window.console.error('An error occurred after requesting a level. Status='+req.status+' levelFileName='+levelFileName);
+                    window.console.error('An error occurred after requesting a level. Status=' + req.status + ' levelFileName=' + levelFileName);
                     callback();
                 }
             }
         };
-        req.open('GET', './levels/'+levelFileName, true);
+        req.open('GET', './levels/' + levelFileName, true);
         req.send();
     }
 
+    /**
+     * Uploads a given file into the levels directory.
+     * Invokes the given callback with the success boolean as parameter.
+     *
+     * @param {File} file The file of a html input tag
+     * @param callback Callback that is called when the response is ready
+     */
+    uploadLevel(file, callback) {
+        if (file.type !== 'application/json') {
+            callback(false);
+            return;
+        }
+
+        let formData = new FormData();
+        formData.append('fileToUpload', file);
+
+        let req = new XMLHttpRequest();
+        req.responseType = 'text';
+        req.onreadystatechange = () => { //TODO: bind this ?
+            if (req.readyState === 4) {
+                if (req.status === 200) {
+                    //returns success value (0/1)
+                    callback(req.response);
+                } else {
+                    window.console.error('An error occurred after uploading a level. Status=' + req.status + ' fileName=' + file.name);
+                    callback(false);
+                }
+            }
+        };
+        req.open('POST', './levels/uploadlevel.php', true);
+        req.send(formData);
+    }
 
     /**
      * Checks if the given score is a highscore in this level and saves it if this is the case.
