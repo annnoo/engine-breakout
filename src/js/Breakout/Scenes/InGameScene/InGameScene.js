@@ -207,7 +207,7 @@ class InGameScene extends CanvasScene {
         this.ball.setSpeed(0);
         this.ball.setDirection(new Vec2(0, -1));
 
-        this.paddle.setSpeed(1);
+        this.paddle.setSpeed(0);
 
         this.brickCounter = 0;
 
@@ -228,14 +228,6 @@ class InGameScene extends CanvasScene {
     }
 
     unloadLevel() {
-        let paddleImg = this.app.getAssetManager().getAssetByName('pad');
-        this.paddle = new Paddle(CANVAS_WIDTH / 2 - PADDLE_WIDTH / 2, CANVAS_HEIGHT - PADDLE_HEIGHT - PADDLE_BOT_SPACE, paddleImg, true, this.app.getInputManager());
-        this.paddle.setMinX(WALL_WIDTH);
-        this.paddle.setMaxX(CANVAS_WIDTH-WALL_WIDTH);
-
-        let ballImg = this.app.getAssetManager().getAssetByName('ball');
-        this.ball = new Ball(CANVAS_WIDTH / 2 - BALL_WIDTH / 2, this.paddle.getPosition().y - BALL_PADDLE_SPACE, ballImg);
-
         this.currentLevel = null;
     }
 
