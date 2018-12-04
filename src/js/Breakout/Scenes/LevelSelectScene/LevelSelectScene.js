@@ -52,7 +52,7 @@ class MainMenuScene extends DOMScene {
             const levelButton = document.createElement('button');
             levelButton.classList = 'level-changer button button-orange';
             levelButton.dataset.levelId = level;
-            levelButton.innerHTML = level;
+            levelButton.innerHTML = level.split(".")[0];
 
             node.querySelector('.items').appendChild(levelButton);
         });
