@@ -2,10 +2,10 @@
 
 Here you find the game "No Man's Brick", a retro classic Arkanoid (BreakOut) as a modern web application.
 
-It is written in plain vanilla HTML5, CSS and JavaScript. In the following chapters the remaining 
+It is written in plain vanilla HTML5, CSS and JavaScript. In the following chapters the remaining
 technologies that were used are explained.
 
-This project was initiated with regard to the lecture "Projects of business informatics" 
+This project was initiated with regard to the lecture "Projects of business informatics"
 at the [FHDW](https://www.fhdw.de/).
 
 Date of creation: 19.11.2018
@@ -17,8 +17,8 @@ Date of creation: 19.11.2018
 Browse to the [release page](https://gitlab.com/seeya-js/breakout/releases), click at the latest version
 and download the source code.
 
-To run the game you need a webserver like [Apache](http://httpd.apache.org/docs/2.4/install.html) 
-or [nginx](https://www.nginx.com/resources/wiki/start/topics/tutorials/install/).
+To run the game you need a webserver like [Apache](http://httpd.apache.org/docs/2.4/install.html)
+or [nginx](https://www.nginx.com/resources/wiki/start/topics/tutorials/install/) and PHP.
 
 If you only provide the game locally, we recommend [XAMPP](https://www.apachefriends.org/download.html), which
 contains other useful products besides an apache webserver.
@@ -76,12 +76,13 @@ If your game area is 9 cells wide and 10 cells high, this example level will lik
 ![Level Example](https://files.tebros.de/unprotected/breakout/level_example.png)
 
 ## Browsers compatibility
+* Latest Firefox
+* Latest Chrome or Chromium
+* Internet Explorer, Edge and any other browsers are **NOT SUPPORTED**!
 
-* Google Chrome
-* ...
+The minimum recommended viewport size is 800x600 pixels.
 
 ## Known bugs
-
 * ...
 
 ## Authors
@@ -93,15 +94,16 @@ If your game area is 9 cells wide and 10 cells high, this example level will lik
 
 ## Assignments and responsibilities
 
-In general, every author has worked on all parts of the project, 
+In general, every author has worked on all parts of the project,
 be it bug fixing, add functionality to existing classes or general architecture.
 In the following the responsibilities for the main parts are listed.
 
 * **Christian Danscheid**
-    * Renderer with all underlying components
-    * SceneManager
+    * Renderer with all underlying components (CanvasBuffer, DoubleBufferedCanvas, LayeredCanvas, LayeredRenderer...)
+    * SceneManager with Scene lifecycle
     * DOMScene and CanvasScene
     * GameLoop
+    * MainMenuScene and LevelSelectScene (draft and implementation)
 * **Anno Kerp**
     * Vector2D
     * InputManager
@@ -120,29 +122,29 @@ In the following the responsibilities for the main parts are listed.
 
 ## Used technologies
 
-* [EditorConfig](https://editorconfig.org/) ensures that all developers have a consistent coding style
+* [EditorConfig](https://editorconfig.org/) ensures that all developers have a consistent file style (linebreaks, encoding, indentation, etc.)
 * [npm](https://www.npmjs.com/) helps to download some of the other technologies
 * [ESLint](https://eslint.org/) checks the code for coding standards and outputs warnings
 * [webpack](https://webpack.js.org/) bundles and minifies the code and assets
-* [git](https://git-scm.com/) helps us to develop with more than a single person on this project 
+* [git](https://git-scm.com/) helps us to develop with more than a single person on this project
 and controls the versions
 * [Some webpack loaders](https://webpack.js.org/loaders/) which allow to bundle other files besides .js files
 
 ## License
-This project is licensed under the MIT license. All images and 
-audio files were created by the developers of this project and 
+This project is licensed under the MIT license. All images and
+audio files were created by the developers of this project and
 are licensed with the same license.
 
 * [EditorConfig](https://editorconfig.org/) Creative Commons Attribution 3.0 Unported
 * [npm](https://www.npmjs.com/policies/npm-license) Artistic License 2.0
 * [ESLint](https://github.com/eslint/eslint/blob/master/LICENSE) MIT
 * [webpack](https://github.com/webpack/webpack/blob/master/LICENSE) MIT
-* [git](https://git-scm.com/about/free-and-open-source) GNU GPLv2 
-* [Some webpack loaders](https://webpack.js.org/loaders/) 
+* [git](https://git-scm.com/about/free-and-open-source) GNU GPLv2
+* [Some webpack loaders](https://webpack.js.org/loaders/)
     * [style-loader](https://github.com/webpack-contrib/style-loader/blob/master/LICENSE) MIT
-    * [css-loader](https://github.com/webpack-contrib/css-loader/blob/master/LICENSE) MIT 
+    * [css-loader](https://github.com/webpack-contrib/css-loader/blob/master/LICENSE) MIT
     * [file-loader](https://github.com/webpack-contrib/file-loader/blob/master/LICENSE) MIT
-    * [image-webpack-loader](https://github.com/webpack-contrib/file-loader/blob/master/LICENSE) MIT 
+    * [image-webpack-loader](https://github.com/webpack-contrib/file-loader/blob/master/LICENSE) MIT
     * [dom-element-loader](https://github.com/Makio64/dom-element-loader) MIT
 
 
@@ -195,7 +197,7 @@ all resources into *./dist/main.js*.
 ### Productive build
 
 Similar to the development build, you can also use *npm run dev*.
-But in some cases you want to build the project by your own. 
+But in some cases you want to build the project by your own.
 ```
 npm webpack
 ```
@@ -208,6 +210,6 @@ The distribution is equal to the development build.
 
 **Important:** The *.gitignore* file in the */dist* directory
 excludes everything but *index.html*. So ensure that your commit
-contains the whole content of the */dist* directory! 
+contains the whole content of the */dist* directory!
 
 
