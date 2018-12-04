@@ -40,7 +40,7 @@ class CollisionDetector {
             layer.state.forEach((element) => {
                 if ((element instanceof GameObject)) {
                     let area = element.area;
-
+                    element.alreadyChecked = new Array();
                     if (area.getRightX() < 0 || area.getLeftX() > this.canvasDimensions.width || area.getTopY() > this.canvasDimensions.height || area.getBottomY() < 0) {
                         return;
                     } else {
@@ -115,37 +115,58 @@ class CollisionDetector {
     }
 
     doCollisions(dtime,depth = 0) {
-        this.populateGrid();
-        this.spartialGrid.forEach((row) => {
 
+
+
+
+
+        this.populateGrid(dtime);
+
+        this.spartialGrid.forEach((row) => {
+            let tr = 0;
+            let fl =0;
             row.forEach((col) => {
                 for (let i = 0; i < col.length; i++) {
                     let tGameObject = col[i];
+
+
                     if(!tGameObject.isCollidable()){
                         continue;
                     }
 
                     for (let j = i + 1; j < col.length; j++) {
                         let oGameObject = col[j];
+                        tGameObject.alreadyChecked.includes(oGameObject) ? tr ++ : fl++;
+                        if (!oGameObject.isCollidable()) {
+                            continue;
+                        }
+                        else {
+                            if (!tGameObject.alreadyChecked.includes(oGameObject) && !oGameObject.alreadyChecked.includes(tGameObject)) {
 
-                        if (oGameObject.isCollidable()) {
-                            if (col[i].area.collidesWith(col[j].area, depth)) {
-                                let ignorePhysics = false;
-                                if (tGameObject.isMovable()) {
-                                    ignorePhysics = tGameObject.onCollideWith(oGameObject);
-                                } else if (oGameObject.isMovable()) {
-                                    ignorePhysics = oGameObject.onCollideWith(tGameObject);
-                                } else {
-                                    ignorePhysics = tGameObject.onCollideWith(oGameObject);
-                                }
-                                if (!ignorePhysics) {
-                                    updateDirections(tGameObject, oGameObject, dtime);
+                                tGameObject.alreadyChecked.push(oGameObject);
+                                oGameObject.alreadyChecked.push(tGameObject);
+                                if (col[i].area.collidesWith(col[j].area, depth)) {
+                                    let ignorePhysics = false;
+                                    if (tGameObject.isMovable()) {
+                                        ignorePhysics = tGameObject.onCollideWith(oGameObject);
+                                    } else if (oGameObject.isMovable()) {
+                                        ignorePhysics = oGameObject.onCollideWith(tGameObject);
+                                    } else {
+                                        ignorePhysics = tGameObject.onCollideWith(oGameObject);
+                                    }
+                                    if (!ignorePhysics) {
+                                        updateDirections(tGameObject, oGameObject, dtime);
+                                    }
                                 }
                             }
+
+
                         }
+
                     }
                 }
             });
+
 
         });
     }

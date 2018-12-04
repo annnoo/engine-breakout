@@ -23,6 +23,7 @@ class GameObject extends Physical {
         this.speed = 0; //pixel per second
 
         this.area = area;
+        this.currentlyColliding = false;
 
         this.collidable = collidable;
     }

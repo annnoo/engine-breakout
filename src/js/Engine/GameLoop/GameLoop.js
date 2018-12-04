@@ -7,7 +7,7 @@ class GameLoop {
     /**
      * @param {CanvasScene} scene Scene that has created this instance
      */
-    constructor(scene,gridWidth = 5, gridHeight = 5) {
+    constructor(scene,gridWidth = 7, gridHeight = 7) {
         /** @type {Array<RenderLayer>} */
         this.state = scene.renderer.layers;
         this.scene = scene;
