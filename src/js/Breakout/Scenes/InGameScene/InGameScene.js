@@ -142,7 +142,12 @@ class InGameScene extends CanvasScene {
             this._onGameLost();
             return;
         }
+        let htmlCanvas = this.renderer.canvas.display;
 
+        htmlCanvas.addEventListener('dblclick', () => {
+            htmlCanvas.requestPointerLock();
+        });
+        htmlCanvas.requestPointerLock();
         //check keys
         let inputManager = this.app.getInputManager();
         if (inputManager.keyPressed(KeyNames.START)) {
@@ -154,12 +159,11 @@ class InGameScene extends CanvasScene {
             //TODO: see here https://codepen.io/MSEdgeDev/pen/zqYBbb
             //synchronize mouse with paddle
             this.app.getInputManager().mouseMovement.set(0, 0);
-            let htmlCanvas = this.renderer.canvas.display;
+
+            //htmlCanvas.requestPointerLock = htmlCanvas.requestPointerLock || htmlCanvas.mozRequestPointerLock;
 
             //pointer lock when click in canvas
-            htmlCanvas.onclick = () => {
-                htmlCanvas.requestPointerLock();
-            };
+
 
             // htmlCanvas.requestPointerLock = htmlCanvas.requestPointerLock || htmlCanvas.mozRequestPointerLock;
             // htmlCanvas.requestPointerLock();
