@@ -2,6 +2,8 @@
 
 import Physical from '../CollisionDetection/Physical';
 import Vec2 from '../Math/Vec2';
+import Area from '../Math/Area';
+
 
 /**
  * @author Yannik Ries
@@ -18,6 +20,8 @@ class GameObject extends Physical {
      */
     constructor(posX, posY, area, collidable) {
         super();
+
+
         this.position = new Vec2(posX, posY);
         this.direction = new Vec2(0, 0);
         this.speed = 0; //pixel per second
@@ -36,6 +40,13 @@ class GameObject extends Physical {
         super.rollback(dtime);
         return this._update(dtime, true);
     }
+
+    setPos(x,y){
+        this.area.move(this.position.x-x,this.position.y-y);
+        this.position.set(x,y);
+    }
+
+
 
     /**
      * Calculates and updates the position of the object with its direction and speed.

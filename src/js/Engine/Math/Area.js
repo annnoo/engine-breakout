@@ -59,6 +59,17 @@ class Area {
         this.subareas.forEach((subarea) => subarea.move(offsetX, offsetY));
     }
 
+
+    /**
+     *
+     * @param {number} x New x-Position
+     * @param {number} y New y-position
+     */
+    moveTo(x,y){
+        this.leftX = x;
+        this.topY = y;
+    }
+
     /**
      * Returns if the given point is included by the area. You can limit the amount of
      * recursive calls with the deepness.
