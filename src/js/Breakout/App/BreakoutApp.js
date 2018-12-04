@@ -13,6 +13,7 @@ import BrickImg5 from '../../../img/cropped_filter/brick4_str-e1_cropped.png';
 import TestInGameScene from '../Scenes/TestInGameScene';
 
 import MainMenuScene from '../Scenes/MainMenuScene/MainMenuScene';
+import LevelSelectScene from '../Scenes/LevelSelectScene/LevelSelectScene';
 import LevelManager from '../Level/LevelManager';
 
 class BreakoutApp extends AbstractApp {
@@ -51,8 +52,10 @@ class BreakoutApp extends AbstractApp {
             //load scenes only now, because of possible asset dependencies in constructor
             this.getSceneManager().registerScene(SceneNames.PREGAME, new PreGameScene(this));
             this.getSceneManager().registerScene(SceneNames.TESTGAME, new TestInGameScene(this));
-            this.getSceneManager().registerScene(SceneNames.INGAME, new InGameScene(this));
+
             this.getSceneManager().registerScene(SceneNames.MAIN_MENU, new MainMenuScene(this));
+            this.getSceneManager().registerScene(SceneNames.LEVEL_SELECT, new LevelSelectScene(this));
+            this.getSceneManager().registerScene(SceneNames.INGAME, new InGameScene(this));
 
             //TODO: activate your first visible scene
             this.getSceneManager().activateScene(SceneNames.MAIN_MENU);

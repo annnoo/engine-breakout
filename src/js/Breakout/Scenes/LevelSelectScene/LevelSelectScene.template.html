@@ -1,0 +1,151 @@
+<template>
+    <style>
+        #level-select {
+            display: grid;
+            height: 100vh;
+            box-sizing: border-box;
+            grid-template-columns: 60% 40%;
+            grid-template-rows: 15% auto 10%;
+            grid-template-areas:
+                "header header"
+                "media buttons"
+                "footer footer";
+            padding: 1em 4em;
+            cursor: default;
+            user-select: none;
+            -moz-user-select: none;
+            -webkit-user-select: none;
+        }
+
+        #level-select > header {
+            grid-area: header;
+            text-align: center;
+
+            color: white;
+        }
+
+        #level-select > section.media-area {
+            grid-area: media;
+        }
+
+        #level-select > section.media-area > * {
+            display: block;
+            position: relative;
+            width: 80%;
+            top: 50%;
+            transform: translateY(-50%);
+            margin: 0 auto;
+            image-rendering: -moz-crisp-edges;
+            image-rendering: pixelated;
+        }
+
+        #level-select > section.buttons {
+            grid-area: buttons;
+            padding: 0 4em;
+
+            height: 100%;
+            display: grid;
+            grid-template-areas:
+                "items"
+                "nav";
+            grid-template-columns: 100%;
+            grid-template-rows: 80% auto;
+        }
+
+        #level-select > section.buttons > .items {
+            grid-area: items;
+            display: flex;
+            flex-direction: column;
+        }
+
+        #level-select > section.buttons > nav {
+            grid-area: nav;
+            text-align: center;
+        }
+
+        #level-select .button {
+            appearance: none;
+            -moz-appearance: none;
+            -webkit-appearance: none;
+            background-color: transparent;
+            border: none;
+            margin: .5em 0;
+            font-size: 1.45rem;
+            cursor: pointer;
+
+            image-rendering: -moz-crisp-edges;
+            image-rendering: pixelated;
+            border-image-slice: 33;
+            border-image-width: 33;
+            border-image-repeat: stretch;
+            border: 20px solid transparent;
+
+            transition: transform 200ms ease-in-out;
+        }
+
+        #level-select .button:first-child {
+            margin-top: 0;
+        }
+
+        #level-select .button:last-child {
+            margin-bottom: 0;
+        }
+
+        #level-select .button:disabled {
+            opacity: .5;
+        }
+
+        #level-select .button:hover:not(:disabled) {
+            transform: scale(1.025);
+            transition: transform 200ms ease-in-out;
+        }
+
+        #level-select .button-red {
+            background-color: #cb4413;
+        }
+
+        #level-select .button-orange {
+            background-color: #c1723b;
+        }
+
+        #level-select .button-blue {
+            background-color: #3342ce;
+        }
+
+        #level-select .button-green {
+            background-color: #3f9919;
+        }
+
+        #level-select > footer {
+            grid-area: footer;
+            text-align: right;
+        }
+    </style>
+
+    <div id="level-select">
+        <header>
+            <h2>Select a level</h2>
+        </header>
+
+        <section class="media-area">
+            <!-- Image URI can be changed via scene argument imgURI -->
+            <img src="http://placehold.it/1920x1080" alt="Fancy teaser image" />
+        </section>
+
+        <section class="buttons">
+            <div class="items">
+                <!-- Level entries will be inserted here dynamically -->
+            </div>
+            <nav>
+                <button id="first-page" class="button button-green">&laquo;</button>
+                <button id="before-page" class="button button-green">&lsaquo;</button>
+                <button id="next-page" class="button button-green">&rsaquo;</button>
+                <button id="last-page" class="button button-green">&raquo;</button>
+            </nav>
+        </section>
+
+        <footer>
+            <button id="back-button" class="button button-blue">&larr; Back to Main Menu</button>
+        </footer>
+    </div>
+</template>
