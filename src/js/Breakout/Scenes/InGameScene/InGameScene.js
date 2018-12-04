@@ -73,7 +73,7 @@ class InGameScene extends CanvasScene {
         super.onAfterMount();
 
         if(this.reloadLevelOnMounted){
-            this.reloadLevelOnMounted = false;
+            // this.reloadLevelOnMounted = false;
 
             this.getLayer(LayerNames.OFTEN).setState([
                 // this.background,
