@@ -80,7 +80,7 @@ If your game area is 9 cells wide and 10 cells high, this example level will lik
 * Latest Chrome or Chromium
 * Internet Explorer, Edge and any other browsers are **NOT SUPPORTED**!
 
-The minimum recommended viewport size is 800x600 pixels.
+The minimum recommended screen resolution is 1280x768.
 
 ## Known bugs
 * ...
