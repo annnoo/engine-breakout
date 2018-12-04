@@ -13,6 +13,8 @@ import ORANGE_BRICK from './brick_orange.png';
 import GREEN_BRICK from './brick_green.png';
 import BLUE_BRICK from './brick_blue.png';
 
+import LOGO_IMG from './logo.png';
+
 class MainMenuScene extends DOMScene {
     /**
     * @param {AbstractApp} app
@@ -46,7 +48,9 @@ class MainMenuScene extends DOMScene {
             element.style.borderImageSlice = '2';
             element.style.borderImageWidth = '10px';
         });
-
+        node.querySelectorAll('.logo').forEach(element => {
+            element.setAttribute('src',LOGO_IMG);
+        });
         node.querySelectorAll('.button-red').forEach(element => {
             element.style.borderImageSource = 'url(' + RED_BRICK + ')';
         });
