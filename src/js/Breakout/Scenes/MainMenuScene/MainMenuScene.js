@@ -38,6 +38,10 @@ class MainMenuScene extends DOMScene {
 
         this.selectedLevel = args.levelID;
 
+        if (!this.app.getSceneManager().registeredScenes[SceneNames.INGAME].isAnyLevelLoaded()) {
+            node.querySelector(START_GAME_BUTTON).disabled = true;
+        }
+
         node.querySelectorAll('.button').forEach(element => {
             element.style.borderImageSlice = '2';
             element.style.borderImageWidth = '10px';
@@ -67,7 +71,7 @@ class MainMenuScene extends DOMScene {
     }
 
     _selectLevel() {
-        this.app.getSceneManager().activateScene(SceneNames.LEVEL_SELECT);
+        this.app.getSceneManager().activateScene(SceneNames.LEVEL_SELECT, { selectedLevelID: this.selectedLevel });
     }
 }
 

@@ -32,6 +32,7 @@ class MainMenuScene extends DOMScene {
         const levelNames = await this.app.getLevelManager().requestLevelNames();
 
         // Parse scene args
+        console.log(args);
         this.selectedLevel = args.selectedLevelID;
         this.displayPage = args.page ? args.page : 1;
 
@@ -61,6 +62,7 @@ class MainMenuScene extends DOMScene {
             element.addEventListener('click', (() => this._selectLevel(levelId)).bind(this));
 
             // Make the button of the selected level red
+            console.log(levelId + ' ' + this.selectedLevel);
             if (levelId === this.selectedLevel) {
                 element.classList.replace('button-orange', 'button-red');
             }
