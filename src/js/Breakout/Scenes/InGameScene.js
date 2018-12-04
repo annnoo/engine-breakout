@@ -54,20 +54,19 @@ class InGameScene extends CanvasScene {
         ball.setSpeed(100);
         ball.setDirection(new Vec2(0, -1));
 
-        this.getLayer(LayerNames.RARE).setState(bricks);
+        //this.getLayer(LayerNames.RARE).setState(bricks);
+
+
         this.getLayer(LayerNames.OFTEN).setState([
-            ball, pad
+            ball, pad,...bricks
         ]);
 
     }
 
     onUpdate(dtime) {
         super.onUpdate(dtime);
+        this.getLayer(LayerNames.OFTEN).setClearFlag(true);
 
-        if (this.counter % 1000 === 0) {
-            this.counter = 100;
-            window.console.log('reset counter');
-        }
     }
 
     /**

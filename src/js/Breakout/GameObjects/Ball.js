@@ -53,6 +53,7 @@ class Ball extends Sprite {
             this.lastCollision = other;
             if (other.lifeCounter <= 0) {
                 other.disable();
+
             }
             this.lastCollisionPaddle = false;
             other.updateImage();
