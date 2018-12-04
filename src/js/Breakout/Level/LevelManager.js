@@ -36,66 +36,59 @@ class LevelManager {
     }
 
     /**
-     * Invokes the given callback with an array of all level names as parameter.
      * [ "level1.json", "level2.json" ]
      *
-     * @param callback Callback that is called when the response is ready
+     * @returns {Promise} resolve function has the array as parameter
      */
-    requestLevelNames(callback) {
-        let req = new XMLHttpRequest();
-        req.responseType = 'json';
-        req.onreadystatechange = () => {
-            if (req.readyState === 4) {
-                if (req.status === 200) {
-                    callback(req.response);
-                } else {
-                    window.console.error('An error occurred after requesting the level names. Status=' + req.status);
-                    callback([]);
+    requestLevelNames() {
+        return new Promise((resolve, reject) => {
+
+            let req = new XMLHttpRequest();
+            req.responseType = 'json';
+            req.onreadystatechange = () => {
+                if (req.readyState === 4) {
+                    if (req.status === 200) {
+                        resolve(req.response);
+                    } else {
+                        window.console.error('An error occurred after requesting the level names. Status=' + req.status);
+                        reject();
+                    }
                 }
-            }
-        };
-        req.open('GET', './levels/getlevelnames.php', true);
-        req.send();
+            };
+            req.open('GET', './levels/getlevelnames.php', true);
+            req.send();
+        });
     }
 
     /**
-     * Invokes the given callback with the level as parameter if is exists.
-     * If the given levelFileName is known, the method returns the cached object.
      *
-     * @param levelFileName Level file name (an entry of requestLevelNames)
-     * @param callback Callback that is called when the response is ready
+     * @returns {Promise} resolve function has the level as parameter
      */
-    getLevel(levelFileName, callback) {
-        if (this.levels.has(levelFileName)) {
-            callback(this.levels.get(levelFileName));
-            return;
-        }
-        this._requestLevel(levelFileName, callback);
-    }
+    getLevel(levelFileName) {
+        return new Promise((resolve, reject) => {
 
-    /**
-     * Invokes the given callback with the level as parameter if is exists.
-     *
-     * @param levelFileName Level file name (an entry of requestLevelNames)
-     * @param callback Callback that is called when the response is ready
-     */
-    _requestLevel(levelFileName, callback) {
-        let req = new XMLHttpRequest();
-        req.responseType = 'json';
-        req.onreadystatechange = () => { //TODO: bind this ?
-            if (req.readyState === 4) {
-                if (req.status === 200) {
-                    let level = Level.from(req.response);
-                    this.levels.set(levelFileName, level);
-                    callback(level);
-                } else {
-                    window.console.error('An error occurred after requesting a level. Status=' + req.status + ' levelFileName=' + levelFileName);
-                    callback();
-                }
+            if (this.levels.has(levelFileName)) {
+                resolve(this.levels.get(levelFileName));
+                return;
             }
-        };
-        req.open('GET', './levels/' + levelFileName, true);
-        req.send();
+
+            let req = new XMLHttpRequest();
+            req.responseType = 'json';
+            req.onreadystatechange = () => { //TODO: bind this ?
+                if (req.readyState === 4) {
+                    if (req.status === 200) {
+                        let level = Level.from(req.response);
+                        this.levels.set(levelFileName, level);
+                        resolve(level);
+                    } else {
+                        window.console.error('An error occurred after requesting a level. Status=' + req.status + ' levelFileName=' + levelFileName);
+                        reject();
+                    }
+                }
+            };
+            req.open('GET', './levels/' + levelFileName, true);
+            req.send();
+        });
     }
 
     /**
