@@ -11,12 +11,14 @@ import {SceneNames} from '../../App/BreakoutApp';
 
 const CANVAS_WIDTH = 360; //canvas.width
 const CANVAS_HEIGHT = 240; //canvas.height
+const WALL_WIDTH = 8;
 const PADDLE_WIDTH = 48;
 const PADDLE_HEIGHT = 8;
 const PADDLE_BOT_SPACE = 5;
 const BALL_WIDTH = 7;
 const BALL_HEIGHT = 7;
 const BALL_PADDLE_SPACE = 20;
+
 
 let KEYS_REGISTERED = false;
 
@@ -41,50 +43,69 @@ class InGameScene extends CanvasScene {
         let ballImg = this.app.getAssetManager().getAssetByName('ball');
         this.ball = new Ball(CANVAS_WIDTH / 2 - BALL_WIDTH / 2, this.paddle.getPosition().y - BALL_PADDLE_SPACE, ballImg);
 
-        this.infoText = new Text(100, 10, ""); //TODO: change pos and font!
+        //TODO: make better walls
+        let wT = new Rectangle(0, 0, CANVAS_WIDTH - WALL_WIDTH, WALL_WIDTH);
+        let wR = new Rectangle(CANVAS_WIDTH - WALL_WIDTH, 0, WALL_WIDTH, CANVAS_HEIGHT - WALL_WIDTH);
+        let wB = new Rectangle(WALL_WIDTH, CANVAS_HEIGHT - WALL_WIDTH, CANVAS_WIDTH - WALL_WIDTH, WALL_WIDTH);
+        let wL = new Rectangle(0, WALL_WIDTH, WALL_WIDTH, CANVAS_HEIGHT - WALL_WIDTH);
+
+        wT.setDirection(new Vec2(1, 0));
+        wR.setDirection(new Vec2(0, -1));
+        wB.setDirection(new Vec2(1, 0));
+        wL.setDirection(new Vec2(0, -1));
+
+        this.walls = [wT, wR, wB, wL];
+        this.walls = []; //TODO: remove
+
+
+        this.infoText = new Text(100, 10, ''); //TODO: change pos and font!
     }
 
     onAfterMount() {
         super.onAfterMount();
 
-        //TODO: loading level into menuscene!
-        this.app.getLevelManager().getLevel("level1.json", (level)=>{
+        if(this.reloadLevelOnMounted){
+            this.reloadLevelOnMounted = false;
 
-            this.loadLevel(level); //TODO: move to menuscene!
+            this.getLayer(LayerNames.OFTEN).setState([
+                ...this.bricks,
+                this.infoText,
+                this.ball,
+                this.paddle,
+                ...this.walls
+            ]);
+        }
 
-            let htmlCanvas = this.renderer.canvas.display;
+        let htmlCanvas = this.renderer.canvas.display;
 
-            //synchronize mouse with paddle
-            htmlCanvas.requestPointerLock = htmlCanvas.requestPointerLock || htmlCanvas.mozRequestPointerLock;
-            htmlCanvas.requestPointerLock();
+        //synchronize mouse with paddle
+        htmlCanvas.requestPointerLock = htmlCanvas.requestPointerLock || htmlCanvas.mozRequestPointerLock;
+        htmlCanvas.requestPointerLock();
 
-            this.renderer.enableDebug(true);
+        this.renderer.enableDebug(true);
 
-            //register keyalias
-            if(!KEYS_REGISTERED){
-                KEYS_REGISTERED = true;
+        //register keyalias
+        if (!KEYS_REGISTERED) {
+            KEYS_REGISTERED = true;
 
-                let inputManager = this.app.getInputManager();
-                for(let alias in this.keybindings){
-                    inputManager.addKey(alias, this.keybindings[alias]);
-                }
+            let inputManager = this.app.getInputManager();
+            for (let alias in this.keybindings) {
+                inputManager.addKey(alias, this.keybindings[alias]);
             }
+        }
 
-            this.infoText.setText("Press ENTER to start");
-
-
-        });
+        this.infoText.setText('Press ENTER to start');
     }
 
     onBeforeUnmount(args) {
         return super.onBeforeUnmount(args);
     }
 
+
     onUpdate(dtime) {
         super.onUpdate(dtime);
 
         //check keys
-        //TODO: BUG: nothing happens when i press a key!
         let inputManager = this.app.getInputManager();
         if(inputManager.keyPressed(KeyNames.START)){
 
@@ -125,20 +146,13 @@ class InGameScene extends CanvasScene {
 
         this.paddle.setSpeed(0);
 
-
         let assetManager = this.app.getAssetManager();
-        let bricks = [];
+        this.bricks = [];
         for(let levelBrick of level.getBricks()){
-            bricks.push(Brick.from(levelBrick, assetManager));
+            this.bricks.push(Brick.from(levelBrick, assetManager));
         }
 
-        this.getLayer(LayerNames.OFTEN).setState([
-            ...bricks,
-            this.infoText,
-            this.ball,
-            this.paddle
-        ]);
-
+        this.reloadLevelOnMounted = true;
     }
 
     /**
@@ -169,9 +183,9 @@ const KeyNames = {
 const getKeybindings = () => {
     //TODO: define some keybindings
     let bindings = {};
-    bindings[KeyNames.START] = 13;
-    bindings[KeyNames.PAUSE] = 27;
-    bindings[KeyNames.TOGGLE_DEBUG] = 68;
+    bindings[KeyNames.START] = 13; //ENTER
+    bindings[KeyNames.PAUSE] = 27; //ESC
+    bindings[KeyNames.TOGGLE_DEBUG] = 68; //D
 
     return bindings;
 };
