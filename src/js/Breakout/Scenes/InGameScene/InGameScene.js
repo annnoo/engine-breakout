@@ -120,24 +120,28 @@ class InGameScene extends CanvasScene {
     }
 
     _onGameWon(){
-        //TODO: do something
-
-        this.infoText.setText("You won!");
+        this.infoText.setText('You won!');
         this.infoText.visible = true;
+        alert('Well done, you win!');
+        const img = this.renderer.canvas.display.toDataURL();
+        this.unloadLevel();
+        this.app.getSceneManager().activateScene(SceneNames.MAIN_MENU, { imgURI: img });
     }
 
     _onGameLost(){
-        //TODO: do something
-
-        this.infoText.setText("You lost!");
+        this.infoText.setText('You lost!');
         this.infoText.visible = true;
+        this.gameloop.stop();
+        alert('You lose!');
+        const img = this.renderer.canvas.display.toDataURL();
+        this.unloadLevel();
+        this.app.getSceneManager().activateScene(SceneNames.MAIN_MENU, { imgURI: img });
     }
 
     onUpdate(dtime) {
         super.onUpdate(dtime);
 
-        if (this.ball.position.y + BALL_HEIGHT >= this.paddle.position.y + PADDLE_WIDTH) {
-            //TODO: this does not work? idk why
+        if (this.ball.position.y + BALL_HEIGHT >= this.paddle.position.y + PADDLE_HEIGHT) {
             //ball on ground => lost
             this._onGameLost();
             return;
@@ -221,6 +225,10 @@ class InGameScene extends CanvasScene {
 
         this.reloadLevelOnMounted = true;
         this.currentLevel = level;
+    }
+
+    unloadLevel() {
+        this.currentLevel = null;
     }
 
     /**
