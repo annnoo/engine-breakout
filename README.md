@@ -95,6 +95,8 @@ The minimum recommended screen resolution is 1280x768.
 * Locking the mouse pointer requires a double click
 * Leaving a level requires two presses of ESC
 * When entering the level selector after leaving a level, the just played level will not be highlighted
+* The level selection screen flickers when switching pages
+* Collision detection sometimes failes at the paddle and always when colliding with left, top and right of a block
 
 ## Authors
 
