@@ -34,6 +34,15 @@ The default port for most webservers is 80. You can determine the version by the
 
 *Please notice the known bugs and the supported browsers!*
 
+## Starting a game
+1. From the Main Menu, click *[Select Level]*
+2. Click the level you'd like to play and wait for it to become highlighted (red)
+3. Go back to the Main Menu using the *[&larr; Back to Main Menu]* button
+4. Click *[Play game]*
+5. Within the game, double-click the game to lock the mouse pointer, the paddle will now be controlled using the mouse
+6. Hit *ENTER* to start the game. Break all blocks and don't drop the ball!
+7. To exit the level, press *ESC* twice, you will return to the Main Menu
+
 ## Add level
 
 To add a level you can simply copy the level file into the following directory in your public
@@ -83,7 +92,8 @@ If your game area is 9 cells wide and 10 cells high, this example level will lik
 The minimum recommended screen resolution is 1280x768.
 
 ## Known bugs
-* ...
+* Locking the mouse pointer requires a double click
+* Leaving a level requires two presses of ESC
 
 ## Authors
 
