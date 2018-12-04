@@ -51,6 +51,7 @@ class InputManager {
      */
     _keyPressedCallback(ev) {
         this.keyStates[ev.keyCode] = true;
+        window.console.log("pressed: "+ev.keyCode);
     }
 
     /**
@@ -73,7 +74,7 @@ class InputManager {
         }
 
         this.keyMap[inputAlias].push(keycode);
-        if(this.allKeys.indexOf(keycode) >= 0){
+        if(this.allKeys.indexOf(keycode) < 0){
             this.allKeys.push(keycode);
         }
 
