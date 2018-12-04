@@ -54,9 +54,12 @@ class InGameScene extends CanvasScene {
         wR.setDirection(new Vec2(0, -1));
         wB.setDirection(new Vec2(1, 0));
         wL.setDirection(new Vec2(0, -1));
+        wT.visible = false;
+        wR.visible = false;
+        wB.visible = false;
+        wL.visible = false;
 
         this.walls = [wT, wR, wB, wL];
-        this.walls = []; //TODO: remove
 
         let bgImg = this.app.getAssetManager().getAssetByName('bg');
         this.background = new Sprite(0, 0, bgImg, false);
@@ -73,7 +76,7 @@ class InGameScene extends CanvasScene {
             this.reloadLevelOnMounted = false;
 
             this.getLayer(LayerNames.OFTEN).setState([
-                this.background,
+                // this.background,
                 ...this.bricks,
                 this.infoText,
                 this.ball,
@@ -159,7 +162,7 @@ class InGameScene extends CanvasScene {
         }
 
         this.reloadLevelOnMounted = true;
-        this.levelLoaded = true;
+        this.currentLevel = level;
     }
 
     /**
