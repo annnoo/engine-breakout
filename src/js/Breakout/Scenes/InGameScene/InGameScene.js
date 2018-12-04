@@ -12,7 +12,7 @@ import Sprite from '../../../Engine/GameObjects/Sprite';
 
 const CANVAS_WIDTH = 360; //canvas.width
 const CANVAS_HEIGHT = 240; //canvas.height
-const WALL_WIDTH = 8;
+const WALL_WIDTH = 5;
 const PADDLE_WIDTH = 48;
 const PADDLE_HEIGHT = 8;
 const PADDLE_BOT_SPACE = 5;
@@ -40,26 +40,32 @@ class InGameScene extends CanvasScene {
 
         let paddleImg = this.app.getAssetManager().getAssetByName('pad');
         this.paddle = new Paddle(CANVAS_WIDTH / 2 - PADDLE_WIDTH / 2, CANVAS_HEIGHT - PADDLE_HEIGHT - PADDLE_BOT_SPACE, paddleImg, true, inputManager);
+        this.paddle.setMinX(WALL_WIDTH);
+        this.paddle.setMaxX(CANVAS_WIDTH-WALL_WIDTH);
 
         let ballImg = this.app.getAssetManager().getAssetByName('ball');
         this.ball = new Ball(CANVAS_WIDTH / 2 - BALL_WIDTH / 2, this.paddle.getPosition().y - BALL_PADDLE_SPACE, ballImg);
 
-        //TODO: make better walls
         let wT = new Rectangle(0, 0, CANVAS_WIDTH - WALL_WIDTH, WALL_WIDTH);
         let wR = new Rectangle(CANVAS_WIDTH - WALL_WIDTH, 0, WALL_WIDTH, CANVAS_HEIGHT - WALL_WIDTH);
-        let wB = new Rectangle(WALL_WIDTH, CANVAS_HEIGHT - WALL_WIDTH, CANVAS_WIDTH - WALL_WIDTH, WALL_WIDTH);
+        // let wB = new Rectangle(WALL_WIDTH, CANVAS_HEIGHT - WALL_WIDTH, CANVAS_WIDTH - WALL_WIDTH, WALL_WIDTH);
         let wL = new Rectangle(0, WALL_WIDTH, WALL_WIDTH, CANVAS_HEIGHT - WALL_WIDTH);
 
         wT.setDirection(new Vec2(1, 0));
         wR.setDirection(new Vec2(0, -1));
-        wB.setDirection(new Vec2(1, 0));
+        // wB.setDirection(new Vec2(1, 0)); // dont need this or you will never die
         wL.setDirection(new Vec2(0, -1));
         wT.visible = false;
         wR.visible = false;
-        wB.visible = false;
+        // wB.visible = false; // dont need this or you will never die
         wL.visible = false;
 
-        this.walls = [wT, wR, wB, wL];
+        this.walls = [
+            wT,
+            wR,
+            // wB, // dont need this or you will never die
+            wL
+        ];
 
         let bgImg = this.app.getAssetManager().getAssetByName('bg');
         this.background = new Sprite(0, 0, bgImg, false);
@@ -76,7 +82,7 @@ class InGameScene extends CanvasScene {
             this.reloadLevelOnMounted = false;
 
             this.getLayer(LayerNames.OFTEN).setState([
-                // this.background,
+                this.background,
                 ...this.bricks,
                 this.infoText,
                 this.ball,
@@ -84,12 +90,6 @@ class InGameScene extends CanvasScene {
                 ...this.walls
             ]);
         }
-
-        let htmlCanvas = this.renderer.canvas.display;
-
-        //synchronize mouse with paddle
-        htmlCanvas.requestPointerLock = htmlCanvas.requestPointerLock || htmlCanvas.mozRequestPointerLock;
-        htmlCanvas.requestPointerLock();
 
         this.renderer.enableDebug(true);
 
@@ -110,16 +110,62 @@ class InGameScene extends CanvasScene {
         return super.onBeforeUnmount(args);
     }
 
+    _onBrickBreak(brick){
+        //TODO: test if is is called correctly
+        this.brickCounter--;
+        if(this.brickCounter<=0){
+            //no bricks => won
+            this._onGameWon();
+        }
+    }
+
+    _onGameWon(){
+        //TODO: do something
+
+        this.infoText.setText("You won!");
+        this.infoText.visible = true;
+    }
+
+    _onGameLost(){
+        //TODO: do something
+
+        this.infoText.setText("You lost!");
+        this.infoText.visible = true;
+    }
 
     onUpdate(dtime) {
         super.onUpdate(dtime);
 
+        if (this.ball.position.y + BALL_HEIGHT >= this.paddle.position.y + PADDLE_WIDTH) {
+            //TODO: this does not work? idk why
+            //ball on ground => lost
+            this._onGameLost();
+            return;
+        }
+
         //check keys
         let inputManager = this.app.getInputManager();
-        if(inputManager.keyPressed(KeyNames.START)){
+        if (inputManager.keyPressed(KeyNames.START)) {
 
             this.infoText.visible = false;
             this.ball.setSpeed(100);
+
+            //TODO: pointer lock does not work!!
+            //TODO: see here https://codepen.io/MSEdgeDev/pen/zqYBbb
+            //synchronize mouse with paddle
+            this.app.getInputManager().mouseMovement.set(0, 0);
+            let htmlCanvas = this.renderer.canvas.display;
+
+            //pointer lock when click in canvas
+            htmlCanvas.onclick = () => {
+                htmlCanvas.requestPointerLock();
+            };
+
+            // htmlCanvas.requestPointerLock = htmlCanvas.requestPointerLock || htmlCanvas.mozRequestPointerLock;
+            // htmlCanvas.requestPointerLock();
+            // this.paddle.setSpeed(1); //ignores the speed, it just checks if speed == 0 => no update
+
+
 
         }else if(inputManager.keyPressed(KeyNames.PAUSE)){
 
@@ -155,10 +201,18 @@ class InGameScene extends CanvasScene {
 
         this.paddle.setSpeed(0);
 
+        this.brickCounter = 0;
+
         let assetManager = this.app.getAssetManager();
         this.bricks = [];
         for(let levelBrick of level.getBricks()){
-            this.bricks.push(Brick.from(levelBrick, assetManager));
+            if(levelBrick.lifeCounter>0){
+                this.brickCounter++;
+            }
+            let brick = Brick.from(levelBrick, assetManager);
+            //TODO: test of it works with the bind!
+            brick.setOnBrickBreakHandler(this._onBrickBreak.bind(this, brick));
+            this.bricks.push(brick);
         }
 
         this.reloadLevelOnMounted = true;

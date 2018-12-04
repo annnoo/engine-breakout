@@ -18,6 +18,14 @@ class Brick extends Sprite {
 
     }
 
+    /**
+     *
+     * @param callback Call im lifecounter <= 0
+     */
+    setOnBrickBreakHandler(callback){
+        this.onBrickBreakHandler = callback;
+    }
+
     updateImage() {
         this.image = this._getImageByName();
     }
@@ -26,6 +34,8 @@ class Brick extends Sprite {
         this.image = new Image(0, 0);
         this.visible = false;
         this.collidable = false;
+
+        this.onBrickBreakHandler();
     }
 
     _getImageByName() {
