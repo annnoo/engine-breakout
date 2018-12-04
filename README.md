@@ -115,6 +115,7 @@ In the following the responsibilities for the main parts are listed.
     * DOMScene and CanvasScene
     * GameLoop
     * MainMenuScene and LevelSelectScene (draft and implementation)
+    * Level files
 * **Anno Kerp**
     * Vector2D
     * InputManager
