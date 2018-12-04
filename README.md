@@ -94,6 +94,7 @@ The minimum recommended screen resolution is 1280x768.
 ## Known bugs
 * Locking the mouse pointer requires a double click
 * Leaving a level requires two presses of ESC
+* When entering the level selector after leaving a level, the just played level will not be highlighted
 
 ## Authors
 
