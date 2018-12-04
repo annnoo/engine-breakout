@@ -47,30 +47,6 @@ class InGameScene extends CanvasScene {
     onAfterMount() {
         super.onAfterMount();
 
-
-        //wir befinden uns irgendwo in menu
-        //und jetzt wurde ein level selected
-        //und es soll geladen werden und
-        //nach dem laden in die ingame scene gewechselt werden
-
-        //das hier ist ein eintrag aus dem array, das du über
-        //this.app.getLevelManager().requestLevelNames(...)
-        //bekommst
-        let level = "level1.json";
-
-        this.app.getLevelManager().getLevel(level, (level) => {
-
-            //hier wäre es gut, wenn SceneManager eine getScene(id) methode hätte
-            let inGameScene = this.app.getSceneManager().registeredScenes[SceneNames.INGAME];
-
-            inGameScene.loadLevel(level);
-
-            //nun ist alles vorbereitet. jetzt kann die scene gewechselt werden
-
-            this.app.getSceneManager().activateScene(SceneNames.INGAME);
-
-        });
-
         //TODO: loading level into menuscene!
         this.app.getLevelManager().getLevel("level1.json", (level)=>{
 
@@ -119,7 +95,7 @@ class InGameScene extends CanvasScene {
 
             let canvasImgSrc = this.renderer.canvas.display.toDataURL(); //current image of canvas as src attribute
             this.app.getSceneManager().activateScene(SceneNames.MAIN_MENU, {
-                imgURI: undefined
+                imgURI: canvasImgSrc
             });
 
         }else if(inputManager.keyPressed(KeyNames.TOGGLE_DEBUG)){
