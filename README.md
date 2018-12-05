@@ -14,7 +14,7 @@ Date of creation: 19.11.2018
 
 ## Getting started
 
-Browse to the [release page](https://gitlab.com/seeya-js/breakout/releases), click at the latest version
+Browse to the [release page](https://gitlab.com/seeya-js/breakout/tags)
 and download the source code.
 
 To run the game you need a webserver like [Apache](http://httpd.apache.org/docs/2.4/install.html)
