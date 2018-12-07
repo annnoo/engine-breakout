@@ -1,3 +1,5 @@
+![alt text](https://gitlab.com/seeya-js/breakout/raw/master/src/js/Breakout/Scenes/MainMenuScene/logo.png)
+
 # No Man's Brick
 
 Here you find the game "No Man's Brick", a retro classic Arkanoid (BreakOut) as a modern web application.
